@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">RKCONTACTS</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="flat">Flat</string>
+    <string name="personal">Personal</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="account">Account</string>
+    <string name="logout">Logout</string>
+    <string name="summary">Summary</string>
+    <string name="about">About</string>
+    <string name="update">Update</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
