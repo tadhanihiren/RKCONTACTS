@@ -7,12 +7,12 @@
         <item
             android:id="@+id/dshrd"
             android:title="@string/dashboard" />
-        <item
-            android:id="@+id/flt"
-            android:title="@string/flat" />
-        <item
-            android:id="@+id/prsnl"
-            android:title="@string/personal" />
+        <!--<item-->
+            <!--android:id="@+id/flt"-->
+            <!--android:title="@string/flat" />-->
+        <!--<item-->
+            <!--android:id="@+id/prsnl"-->
+            <!--android:title="@string/personal" />-->
     </group>
 
     <item android:title="@string/about">

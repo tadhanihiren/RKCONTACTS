@@ -3,20 +3,18 @@ package ml.app.rkcontacts;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,8 +27,6 @@ import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
 import ml.app.rkcontacts.navigation.NavDashboardFragment;
-import ml.app.rkcontacts.navigation.NavFlatFragment;
-import ml.app.rkcontacts.navigation.NavPersonalFragment;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private DrawerLayout drawer;
@@ -97,14 +93,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new NavDashboardFragment()).addToBackStack(null).commit();
                 break;
-            case R.id.flt:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavFlatFragment()).addToBackStack(null).commit();
-                break;
-            case R.id.prsnl:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavPersonalFragment()).addToBackStack(null).commit();
-                break;
+//            case R.id.flt:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        new NavFlatFragment()).addToBackStack(null).commit();
+//                break;
+//            case R.id.prsnl:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        new NavPersonalFragment()).addToBackStack(null).commit();
+//                break;
             case R.id.shr:
 
                 break;
