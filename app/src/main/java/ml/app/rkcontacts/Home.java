@@ -1,5 +1,8 @@
 package ml.app.rkcontacts;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,21 +14,40 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.squareup.picasso.Picasso;
 
 import ml.app.rkcontacts.navigation.NavDashboardFragment;
 import ml.app.rkcontacts.navigation.NavFlatFragment;
 import ml.app.rkcontacts.navigation.NavPersonalFragment;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private DrawerLayout drawer;
     TextView dispname, dispemail;
+    String Gmail,Gname;
+    Uri Gprofile;
+    ImageView Gimage;
+    private GoogleApiClient googleApiClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        googleApiClient=new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -35,10 +57,24 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         View headerView = navigationView.getHeaderView(0);
 
-        dispemail = headerView.findViewById(R.id.dispemail);
-        dispname = headerView.findViewById(R.id.dispname);
-        dispemail.setText("h@h");
-        dispname.setText("Hiren");
+        GoogleSignInAccount acct= GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        if (acct !=null){
+            Gname=acct.getDisplayName();
+            Gmail=acct.getEmail();
+            Gprofile=acct.getPhotoUrl();
+
+
+            dispemail = headerView.findViewById(R.id.dispemail);
+            dispname = headerView.findViewById(R.id.dispname);
+            Gimage=headerView.findViewById(R.id.profile);
+            dispemail.setText(Gmail);
+            dispname.setText(Gname);
+
+            Picasso.get().load(Gprofile).into(Gimage);
+
+        }
+
+
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -59,15 +95,15 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()) {
             case R.id.dshrd:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavDashboardFragment()).commit();
+                        new NavDashboardFragment()).addToBackStack(null).commit();
                 break;
             case R.id.flt:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavFlatFragment()).commit();
+                        new NavFlatFragment()).addToBackStack(null).commit();
                 break;
             case R.id.prsnl:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavPersonalFragment()).commit();
+                        new NavPersonalFragment()).addToBackStack(null).commit();
                 break;
             case R.id.shr:
 
@@ -76,7 +112,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
                 break;
             case R.id.s_lgt:
+                Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
+                        editor.clear().commit();
+                        editor.apply();
 
+                        finish();
+                        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(i);
+                    }
+                });
                 break;
         }
 
@@ -87,21 +134,26 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 1000);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce = false;
+//            }
+//        }, 1000);
+//    }
 }
