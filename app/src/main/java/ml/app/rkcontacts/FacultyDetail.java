@@ -1,4 +1,4 @@
-package ml.app.rkcontacts.navigation;
+package ml.app.rkcontacts;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,23 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Spinner;
-import android.widget.TableLayout;
+import android.widget.Toast;
 
-import ml.app.rkcontacts.R;
-
-public class NavFlatFragment extends Fragment {
-    Spinner monthlist;
-    WebView flatweb;
-    TableLayout stk;
-
+public class FacultyDetail extends Fragment {
+    String name;
     @Nullable
     @Override
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.nav_fragment_flat, container, false);
-        return v;
-    }
+        View view = inflater.inflate(R.layout.faculty_detail, container, false);
+        name = getArguments().getString("name");
+        Toast.makeText(getContext(), name, Toast.LENGTH_LONG).show();
 
+
+        super.getActivity().setTitle(name);
+
+        return view;
+    }
 }

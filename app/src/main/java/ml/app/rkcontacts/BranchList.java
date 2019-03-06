@@ -61,9 +61,10 @@ public class BranchList extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String strName = listView.getItemAtPosition(position).toString();
                 strName =strName.substring(0, strName.indexOf(' '));
-                FacultyList fragment =new FacultyList();
                 Bundle arguments = new Bundle();
                 arguments.putString("branch", strName);
+                arguments.putString("school", school);
+                FacultyList fragment =new FacultyList();
                 fragment.setArguments(arguments);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
             }

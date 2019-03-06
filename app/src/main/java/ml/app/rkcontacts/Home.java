@@ -26,6 +26,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
+import ml.app.rkcontacts.navigation.NavContactsFragment;
 import ml.app.rkcontacts.navigation.NavDashboardFragment;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -81,8 +82,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new NavDashboardFragment()).commit();
-            navigationView.setCheckedItem(R.id.dshrd);
+                    new NavContactsFragment()).commit();
+            navigationView.setCheckedItem(R.id.cntct);
         }
     }
 
@@ -93,10 +94,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new NavDashboardFragment()).addToBackStack(null).commit();
                 break;
-//            case R.id.flt:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new NavFlatFragment()).addToBackStack(null).commit();
-//                break;
+            case R.id.cntct:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new NavContactsFragment()).addToBackStack(null).commit();
+                break;
 //            case R.id.prsnl:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
 //                        new NavPersonalFragment()).addToBackStack(null).commit();
@@ -111,9 +112,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
-                        SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
-                        editor.clear().commit();
-                        editor.apply();
+                        SharedPreferences.Editor logineditor = getSharedPreferences("login", MODE_PRIVATE).edit();
+                        logineditor.clear().commit();
+                        logineditor.apply();
+
+                        SharedPreferences.Editor dataeditor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                        dataeditor.clear().commit();
+                        dataeditor.apply();
 
                         finish();
                         Intent i = new Intent(getApplicationContext(),MainActivity.class);

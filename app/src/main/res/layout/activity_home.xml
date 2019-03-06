@@ -35,7 +35,7 @@
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#ff9999"/>
+                android:background="#ffffff"/>
         </LinearLayout>
 
         <android.support.design.widget.NavigationView
