@@ -6,12 +6,28 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <Button
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/loginpage" />
+
+    <!--<com.shobhitpuri.custombuttons.GoogleSignInButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:foregroundGravity="center"-->
+    <!--android:text="Login with Google"-->
+    <!--app:isDarkTheme="false" />-->
+
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="341dp" />
+        android:layout_centerInParent="true"
+        android:foregroundGravity="center">
+
+    </com.google.android.gms.common.SignInButton>
 
 </RelativeLayout>

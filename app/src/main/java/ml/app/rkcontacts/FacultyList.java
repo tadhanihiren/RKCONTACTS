@@ -64,7 +64,10 @@ public class FacultyList extends Fragment {
                         String mobile = jsonObject.getString("mobile");
                         String profile = jsonObject.getString("profile");
                         String ext = jsonObject.getString("ext");
-                        Model model = new Model(name, email, profile);
+                        String gender = jsonObject.getString("gender");
+                        String school = jsonObject.getString("school");
+                        String branch = jsonObject.getString("branch");
+                        Model model = new Model(name, email, profile,mobile,ext,gender,school,branch);
                         //bind all strings in an array
                         arrayList.add(model);
                     }
@@ -81,7 +84,10 @@ public class FacultyList extends Fragment {
                         String mobile = jsonObject.getString("mobile");
                         String profile = jsonObject.getString("profile");
                         String ext = jsonObject.getString("ext");
-                        Model model = new Model(name, email, profile);
+                        String gender = jsonObject.getString("gender");
+                        String school = jsonObject.getString("school");
+                        String branch = jsonObject.getString("branch");
+                        Model model = new Model(name, email, profile,mobile,ext,gender,school,branch);
                         //bind all strings in an array
                         arrayList.add(model);
                     }

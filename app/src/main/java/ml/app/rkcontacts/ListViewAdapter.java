@@ -72,8 +72,8 @@ public class ListViewAdapter extends BaseAdapter{
             holder = (ViewHolder)view.getTag();
         }
         //set the results into textviews
-        holder.mTitleTv.setText(modellist.get(postition).getTitle());
-//        holder.mDescTv.setText(modellist.get(postition).getDesc());
+        holder.mTitleTv.setText(modellist.get(postition).getName());
+//        holder.mDescTv.setText(modellist.get(postition).getEmail());
         //set the result in imageview
         Picasso.get().load(modellist.get(postition).getIcon()).into(holder.mIconIv);
 
@@ -83,7 +83,14 @@ public class ListViewAdapter extends BaseAdapter{
             public void onClick(View view) {
                FacultyDetail fragment =new FacultyDetail();
                 Bundle arguments = new Bundle();
-                arguments.putString("name", modellist.get(postition).getTitle());
+                arguments.putString("name", modellist.get(postition).getName());
+                arguments.putString("email", modellist.get(postition).getEmail());
+                arguments.putString("icon", modellist.get(postition).getIcon());
+                arguments.putString("mobile", modellist.get(postition).getMobile());
+                arguments.putString("ext", modellist.get(postition).getExt());
+                arguments.putString("gender", modellist.get(postition).getGender());
+                arguments.putString("school", modellist.get(postition).getSchool());
+                arguments.putString("branch", modellist.get(postition).getBranch());
                 fragment.setArguments(arguments);
                 ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
@@ -103,7 +110,7 @@ public class ListViewAdapter extends BaseAdapter{
         }
         else {
             for (Model model : arrayList){
-                if (model.getTitle().toLowerCase(Locale.getDefault())
+                if (model.getName().toLowerCase(Locale.getDefault())
                         .contains(charText)){
                     modellist.add(model);
                 }

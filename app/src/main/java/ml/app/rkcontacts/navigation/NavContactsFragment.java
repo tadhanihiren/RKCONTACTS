@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import dmax.dialog.SpotsDialog;
 import ml.app.rkcontacts.ListViewAdapter;
 import ml.app.rkcontacts.Model;
 import ml.app.rkcontacts.R;
@@ -38,6 +39,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class NavContactsFragment extends Fragment {
     ListView listView;
+    private SpotsDialog progressDialog;
     ListViewAdapter adapter;
 
     String jsondata;
@@ -51,11 +53,12 @@ public class NavContactsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.nav_fragment_contacts, container, false);
-
+        progressDialog = new SpotsDialog(getContext(), R.style.Custom);
+        progressDialog.setCancelable(false);
 
         SharedPreferences prefsjsn = getActivity().getSharedPreferences("data", MODE_PRIVATE);
         jsondata = prefsjsn.getString("bulk", "");
-        UpdateData();
+//        UpdateData("auto");
         getActivity().setTitle("Contacts");
 
 
@@ -78,7 +81,10 @@ public class NavContactsFragment extends Fragment {
                 String mobile = jsonObject.getString("mobile");
                 String profile = jsonObject.getString("profile");
                 String ext = jsonObject.getString("ext");
-                Model model = new Model(name, email, profile);
+                String gender = jsonObject.getString("gender");
+                String school = jsonObject.getString("school");
+                String branch = jsonObject.getString("branch");
+                Model model = new Model(name, email, profile,mobile,ext,gender,school,branch);
                 //bind all strings in an array
                 arrayList.add(model);
 
@@ -130,25 +136,32 @@ public class NavContactsFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.update_contact_data) {
-            UpdateData();
-            RefreshFragment();
+            progressDialog.show();
+            UpdateData("manual");
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void UpdateData() {
+    private void UpdateData(final String type) {
         String JSON_URL = "http://rkuinfo.ml/getbulk.php?data=hkpanchani";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         SaveData("bulk", response);
+                        if (!type.equals("auto")){
+                            progressDialog.dismiss();
+                            RefreshFragment();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Getting error Please Check Network Connection", Toast.LENGTH_SHORT).show();
+                        if (!type.equals("auto")){
+                            Toast.makeText(getContext(), "Getting error Please Check Network Connection", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());

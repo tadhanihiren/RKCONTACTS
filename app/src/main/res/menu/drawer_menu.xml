@@ -5,11 +5,11 @@
 
     <group>
         <item
-            android:id="@+id/dshrd"
-            android:title="@string/dashboard" />
-        <item
             android:id="@+id/cntct"
             android:title="@string/contacts" />
+        <item
+            android:id="@+id/dshrd"
+            android:title="@string/groups" />
         <!--<item-->
             <!--android:id="@+id/prsnl"-->
             <!--android:title="@string/personal" />-->
