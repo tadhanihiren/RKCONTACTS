@@ -9,13 +9,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import ml.app.rkcontacts.BranchList;
 import ml.app.rkcontacts.R;
 
 public class NavDashboardFragment  extends Fragment implements View.OnClickListener {
-    LinearLayout soeb,sptb,sosb,sopb,achb,somb,sdsb,sasb,scsb;
+    ImageView soeb,sptb,sosb,sopb,achb,somb,sdsb,sasb,rkub;
 
     @Nullable
     @Override
@@ -30,7 +32,7 @@ public class NavDashboardFragment  extends Fragment implements View.OnClickListe
         sopb=view.findViewById(R.id.sopbtn);
         achb=view.findViewById(R.id.achbtn);
         sasb=view.findViewById(R.id.sasbtn);
-        scsb=view.findViewById(R.id.scsbtn);
+        rkub=view.findViewById(R.id.rkubtn);
 
         soeb.setOnClickListener(this);
         sdsb.setOnClickListener(this);
@@ -40,7 +42,7 @@ public class NavDashboardFragment  extends Fragment implements View.OnClickListe
         sopb.setOnClickListener(this);
         achb.setOnClickListener(this);
         sasb.setOnClickListener(this);
-        scsb.setOnClickListener(this);
+        rkub.setOnClickListener(this);
 
 
 
@@ -76,8 +78,8 @@ public class NavDashboardFragment  extends Fragment implements View.OnClickListe
             case R.id.achbtn:
                 GetSchool("ACH");
                 break;
-            case R.id.scsbtn:
-                GetSchool("SCS");
+            case R.id.rkubtn:
+                GetSchool("RKU");
 //                replaceFragment();
                 break;
         }

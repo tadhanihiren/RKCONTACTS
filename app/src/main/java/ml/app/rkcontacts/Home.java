@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import ml.app.rkcontacts.navigation.NavContactsFragment;
 import ml.app.rkcontacts.navigation.NavDashboardFragment;
+import ml.app.rkcontacts.navigation.NavPersonalFragment;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private DrawerLayout drawer;
@@ -35,6 +36,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     String Gmail,Gname;
     Uri Gprofile;
     ImageView Gimage;
+    private int temp=0;
     private GoogleApiClient googleApiClient;
 
 
@@ -71,8 +73,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         }
 
-
-
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -87,21 +87,25 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.dshrd:
+                temp=R.id.dshrd;
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new NavDashboardFragment()).addToBackStack(null).commit();
                 break;
             case R.id.cntct:
+                temp=R.id.cntct;
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new NavContactsFragment()).addToBackStack(null).commit();
                 break;
-//            case R.id.prsnl:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new NavPersonalFragment()).addToBackStack(null).commit();
-//                break;
+            case R.id.prsnl:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new NavPersonalFragment()).addToBackStack(null).commit();
+                break;
             case R.id.shr:
 
                 break;
@@ -131,6 +135,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     boolean doubleBackToExitPressedOnce = false;
 

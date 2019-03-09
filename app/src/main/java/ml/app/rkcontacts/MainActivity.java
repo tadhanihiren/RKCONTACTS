@@ -36,6 +36,7 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    String temp="mratanpara301@rku.ac.in";
     SignInButton login;
     private SpotsDialog progressDialog;
     private GoogleApiClient googleApiClient;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void signin() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        progressDialog.dismiss();
         startActivityForResult(intent, REQ_CODE);
     }
 
@@ -94,12 +96,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
+            progressDialog.show();
             GoogleSignInAccount account = result.getSignInAccount();
             final String email = account.getEmail();
-            String profile = account.getPhotoUrl().toString();
+            String profile = "";
+            if (!(account.getPhotoUrl() == null)) {
+                profile = account.getPhotoUrl().toString();
+//                Toast.makeText(this, profile, Toast.LENGTH_SHORT).show();
+            }
 //            String gender = account.gen
 
-            if (!email.matches("^[a-zA-Z]+.[a-zA-Z]+@rku.ac.in$") && !email.equals("hpanchani813@rku.ac.in")) {
+
+            if (!email.matches("^[a-zA-Z]+.[a-zA-Z]+@rku.ac.in$") && !email.equals("hpanchani813@rku.ac.in") && !email.equals(temp)) {
                 Logout();
                 progressDialog.dismiss();
                 Toast.makeText(this, "Please Login with RKU Email ID", Toast.LENGTH_LONG).show();
@@ -111,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             public void onResponse(String response) {
                                 if (savedata("bulk", response)) {
                                     if (SaveLogin(email)) {
-//                                        progressDialog.dismiss();
+                                        progressDialog.dismiss();
                                         Intent i = new Intent(getApplicationContext(), Home.class);
                                         startActivity(i);
                                         finish();
@@ -127,15 +135,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
+//                                Logout();
                                 Toast.makeText(getApplicationContext(), "Unable to fetch Data", Toast.LENGTH_SHORT).show();
                             }
                         });
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(stringRequest);
 
-                String method = "update";
-                UpdateProfile updatedp = new UpdateProfile(this);
-                updatedp.execute(method, profile, email);
+                if (!profile.equals("")) {
+                    String method = "update";
+                    UpdateProfile updatedp = new UpdateProfile(this);
+                    updatedp.execute(method, profile, email);
+                }
             }
         } else {
             progressDialog.dismiss();
