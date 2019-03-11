@@ -1,5 +1,7 @@
 package ml.app.rkcontacts.navigation;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
 import ml.app.rkcontacts.ListViewAdapter;
@@ -53,6 +58,7 @@ public class NavContactsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.nav_fragment_contacts, container, false);
+
         progressDialog = new SpotsDialog(getContext(), R.style.Custom);
         progressDialog.setCancelable(false);
 
@@ -84,7 +90,7 @@ public class NavContactsFragment extends Fragment {
                 String gender = jsonObject.getString("gender");
                 String school = jsonObject.getString("school");
                 String branch = jsonObject.getString("branch");
-                Model model = new Model(name, email, profile,mobile,ext,gender,school,branch);
+                Model model = new Model(name, email, profile, mobile, ext, gender, school, branch);
                 //bind all strings in an array
                 arrayList.add(model);
 
@@ -101,7 +107,35 @@ public class NavContactsFragment extends Fragment {
         //bind the adapter to the listview
         listView.setAdapter(adapter);
 
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
 
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setTitle("Confirm Exit...");
+                    alertDialog.setMessage("Are you sure you want exit application?");
+                    alertDialog.setIcon(R.drawable.ic_exit_to_app_black_24dp);
+                    alertDialog.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+
+                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    alertDialog.show();
+
+                }
+                return false;
+            }
+        });
         return view;
     }
 
@@ -143,13 +177,13 @@ public class NavContactsFragment extends Fragment {
     }
 
     private void UpdateData(final String type) {
-        String JSON_URL = "http://rkuinfo.ml/getbulk.php?data=hkpanchani";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+        String JSON_URL = "http://rkuinfo.ml/getbulk.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         SaveData("bulk", response);
-                        if (!type.equals("auto")){
+                        if (!type.equals("auto")) {
                             progressDialog.dismiss();
                             RefreshFragment();
                         }
@@ -158,12 +192,19 @@ public class NavContactsFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (!type.equals("auto")){
+                        if (!type.equals("auto")) {
                             Toast.makeText(getContext(), "Getting error Please Check Network Connection", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
                     }
-                });
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("data", "hkpanchani");
+                return params;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
@@ -174,15 +215,19 @@ public class NavContactsFragment extends Fragment {
     }
 
     private boolean SaveData(String type, String response) {
-        if (!response.equals("")) {
-            SharedPreferences.Editor editor = getContext().getApplicationContext().getSharedPreferences("data", MODE_PRIVATE).edit();
-            editor.putString(type, response);
-            editor.apply();
-            editor.commit();
-            return true;
+        try {
+            JSONObject ob = new JSONObject(response);
+            JSONArray jsonArray = ob.getJSONArray("faculty");
+            if (jsonArray.length() != 0) {
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("data", MODE_PRIVATE).edit();
+                editor.putString(type, response);
+                editor.apply();
+                editor.commit();
+                return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return false;
     }
-
-
 }

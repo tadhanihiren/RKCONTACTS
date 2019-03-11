@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ListViewAdapter extends BaseAdapter{
+public class ListViewAdapter extends BaseAdapter {
 
     //variables
     Context mContext;
@@ -33,7 +33,7 @@ public class ListViewAdapter extends BaseAdapter{
         this.arrayList.addAll(modellist);
     }
 
-    public class ViewHolder{
+    public class ViewHolder {
         TextView mTitleTv, mDescTv;
         ImageView mIconIv;
     }
@@ -56,7 +56,7 @@ public class ListViewAdapter extends BaseAdapter{
     @Override
     public View getView(final int postition, View view, ViewGroup parent) {
         ViewHolder holder;
-        if (view==null){
+        if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.contacts_row, null);
 
@@ -67,21 +67,23 @@ public class ListViewAdapter extends BaseAdapter{
 
             view.setTag(holder);
 
-        }
-        else {
-            holder = (ViewHolder)view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
         //set the results into textviews
         holder.mTitleTv.setText(modellist.get(postition).getName());
 //        holder.mDescTv.setText(modellist.get(postition).getEmail());
         //set the result in imageview
-        Picasso.get().load(modellist.get(postition).getIcon()).into(holder.mIconIv);
+        if (!modellist.get(postition).getIcon().equals("http://blms.ml/defaultuser.png"))
+            Picasso.get().load(modellist.get(postition).getIcon()).into(holder.mIconIv);
+        else
+            holder.mIconIv.setImageResource(R.drawable.profile);
 
         //listview item clicks
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               FacultyDetail fragment =new FacultyDetail();
+                FacultyDetail fragment = new FacultyDetail();
                 Bundle arguments = new Bundle();
                 arguments.putString("name", modellist.get(postition).getName());
                 arguments.putString("email", modellist.get(postition).getEmail());
@@ -92,7 +94,7 @@ public class ListViewAdapter extends BaseAdapter{
                 arguments.putString("school", modellist.get(postition).getSchool());
                 arguments.putString("branch", modellist.get(postition).getBranch());
                 fragment.setArguments(arguments);
-                ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                ((AppCompatActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
             }
         });
@@ -102,16 +104,15 @@ public class ListViewAdapter extends BaseAdapter{
     }
 
     //filter
-    public void filter(String charText){
+    public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
         modellist.clear();
-        if (charText.length()==0){
+        if (charText.length() == 0) {
             modellist.addAll(arrayList);
-        }
-        else {
-            for (Model model : arrayList){
+        } else {
+            for (Model model : arrayList) {
                 if (model.getName().toLowerCase(Locale.getDefault())
-                        .contains(charText)){
+                        .contains(charText)) {
                     modellist.add(model);
                 }
             }

@@ -46,9 +46,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
@@ -59,23 +63,25 @@
 
                 <ImageView
                     android:id="@+id/sdsbtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
                     android:src="@drawable/sds" />
 
                 <ImageView
                     android:id="@+id/soebtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/soe" />
 
                 <ImageView
                     android:id="@+id/sombtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
                     android:src="@drawable/som" />
             </LinearLayout>
 
@@ -87,23 +93,25 @@
 
                 <ImageView
                     android:id="@+id/sosbtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
                     android:src="@drawable/sos" />
 
                 <ImageView
                     android:id="@+id/sopbtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/sop" />
 
                 <ImageView
                     android:id="@+id/sasbtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
                     android:src="@drawable/sas" />
             </LinearLayout>
 
@@ -115,23 +123,25 @@
 
                 <ImageView
                     android:id="@+id/sptbtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
                     android:src="@drawable/spt" />
 
                 <ImageView
                     android:id="@+id/achbtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ach" />
 
                 <ImageView
                     android:id="@+id/rkubtn"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="130dp"
-                    android:padding="10dp"
+
                     android:src="@drawable/rku" />
             </LinearLayout>
         </LinearLayout>

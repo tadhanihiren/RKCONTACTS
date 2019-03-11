@@ -1,6 +1,7 @@
 package ml.app.rkcontacts;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -17,14 +18,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
 public class FacultyDetail extends Fragment {
-    String name,email,icon,mobile,ext,gender,school,branch;
-    TextView nametv,emailtv,mobiletv,exttv,gendertv,schooltv,branchtv;
+    String name, email, icon, mobile, ext, gender, school, branch;
+    TextView nametv, emailtv, mobiletv, exttv, gendertv, schooltv, branchtv;
     ImageView iconev;
-    LinearLayout callll,smsll,emailll,lnrcall,lnremail;
+    LinearLayout callll, smsll, emailll, lnrcall, lnremail;
+
+
     @Nullable
     @Override
 
@@ -38,11 +42,11 @@ public class FacultyDetail extends Fragment {
         gender = getArguments().getString("gender");
         school = getArguments().getString("school");
         branch = getArguments().getString("branch");
-        callll=view.findViewById(R.id.callicon);
-        smsll=view.findViewById(R.id.texticon);
-        emailll=view.findViewById(R.id.emailicon);
-        lnrcall=view.findViewById(R.id.lnrcall);
-        lnremail=view.findViewById(R.id.lnremail);
+        callll = view.findViewById(R.id.callicon);
+        smsll = view.findViewById(R.id.texticon);
+        emailll = view.findViewById(R.id.emailicon);
+        lnrcall = view.findViewById(R.id.lnrcall);
+        lnremail = view.findViewById(R.id.lnremail);
 
         lnrcall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +75,7 @@ public class FacultyDetail extends Fragment {
                 Email();
             }
         });
-        
+
         smsll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,14 +83,14 @@ public class FacultyDetail extends Fragment {
             }
         });
 
-        nametv=view.findViewById(R.id.title);
-        emailtv=view.findViewById(R.id.lnrtvemail);
-        mobiletv=view.findViewById(R.id.lnrtvcall);
-        exttv=view.findViewById(R.id.lnrtvext);
-        gendertv=view.findViewById(R.id.lnrtvgen);
-        schooltv=view.findViewById(R.id.lnrtvsch);
-        branchtv=view.findViewById(R.id.lnrtvbra);
-        iconev=view.findViewById(R.id.profile);
+        nametv = view.findViewById(R.id.title);
+        emailtv = view.findViewById(R.id.lnrtvemail);
+        mobiletv = view.findViewById(R.id.lnrtvcall);
+        exttv = view.findViewById(R.id.lnrtvext);
+        gendertv = view.findViewById(R.id.lnrtvgen);
+        schooltv = view.findViewById(R.id.lnrtvsch);
+        branchtv = view.findViewById(R.id.lnrtvbra);
+        iconev = view.findViewById(R.id.profile);
 
         nametv.setText(name);
         emailtv.setText(email);
@@ -95,7 +99,10 @@ public class FacultyDetail extends Fragment {
         gendertv.setText(gender);
         schooltv.setText(school);
         branchtv.setText(branch);
-        Picasso.get().load(icon).into(iconev);
+        if (!icon.equals("http://blms.ml/defaultuser.png"))
+            Picasso.get().load(icon).into(iconev);
+        else
+            iconev.setImageResource(R.drawable.profile);
 //        Toast.makeText(getContext(), name, Toast.LENGTH_LONG).show();
 
 
@@ -112,10 +119,8 @@ public class FacultyDetail extends Fragment {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, 1);
             Toast.makeText(getContext(), "SMS Permission is required to make a call!!!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            if (!mobile.equals("NULL")){
+        } else {
+            if (!mobile.equals("NULL")) {
                 getContext().startActivity(intent);
             }
         }
@@ -129,15 +134,13 @@ public class FacultyDetail extends Fragment {
     }
 
     private void Call() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" +mobile));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobile));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 1);
             Toast.makeText(getContext(), "Call Permission is required to make a call!!!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            if (!mobile.equals("NULL")){
+        } else {
+            if (!mobile.equals("NULL")) {
                 getContext().startActivity(intent);
             }
         }

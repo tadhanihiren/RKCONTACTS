@@ -30,13 +30,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import dmax.dialog.SpotsDialog;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
-    String temp="mratanpara301@rku.ac.in";
+    String temp = "hpanchani813@rku.ac.in";
     SignInButton login;
     private SpotsDialog progressDialog;
     private GoogleApiClient googleApiClient;
@@ -107,13 +110,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //            String gender = account.gen
 
 
-            if (!email.matches("^[a-zA-Z]+.[a-zA-Z]+@rku.ac.in$") && !email.equals("hpanchani813@rku.ac.in") && !email.equals(temp)) {
+            if (!email.matches("^[a-zA-Z]+.[a-zA-Z]+@rku.ac.in$") && !email.equals(temp)) {
                 Logout();
                 progressDialog.dismiss();
                 Toast.makeText(this, "Please Login with RKU Email ID", Toast.LENGTH_LONG).show();
             } else {
-                String JSON_URL = "http://rkuinfo.ml/getbulk.php?data=hkpanchani";
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+                String JSON_URL = "http://rkuinfo.ml/getbulk.php";
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -138,7 +141,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //                                Logout();
                                 Toast.makeText(getApplicationContext(), "Unable to fetch Data", Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("data", "hkpanchani");
+                        return params;
+                    }
+                };
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(stringRequest);
 
@@ -191,10 +201,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public boolean loginStatus() {
         SharedPreferences prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
         String username = prefs.getString("username", "");
-        if (!username.equals("")) {
-            return TRUE;
+        if (!username.matches("^[a-zA-Z]+.[a-zA-Z]+@rku.ac.in$") && !username.equals(temp)) {
+            return FALSE;
         }
-        return FALSE;
+        return TRUE;
     }
 
     public boolean SaveLogin(String email) {

@@ -10,9 +10,9 @@
         <item
             android:id="@+id/dshrd"
             android:title="@string/groups" />
-        <item
-            android:id="@+id/prsnl"
-            android:title="@string/personal" />
+        <!--<item-->
+        <!--android:id="@+id/prsnl"-->
+        <!--android:title="@string/personal" />-->
     </group>
 
     <item android:title="@string/about">
@@ -28,6 +28,9 @@
 
     <item android:title="@string/account">
         <menu>
+            <item
+                android:id="@+id/prfle"
+                android:title="@string/profile" />
             <item
                 android:id="@+id/s_lgt"
                 android:title="@string/logout" />
