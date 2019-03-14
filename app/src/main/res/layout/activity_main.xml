@@ -3,31 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/loginpage"
     android:gravity="center"
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/loginpage" />
+        android:id="@+id/login"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="200dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="fitXY"
+        android:src="@drawable/googlebtn" />
 
     <!--<com.shobhitpuri.custombuttons.GoogleSignInButton-->
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_centerInParent="true"-->
-    <!--android:foregroundGravity="center"-->
-    <!--android:text="Login with Google"-->
+    <!--android:text="Sign in with Google"-->
     <!--app:isDarkTheme="false" />-->
 
-    <com.google.android.gms.common.SignInButton
+    <!--<com.google.android.gms.common.SignInButton
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:foregroundGravity="center">
 
-    </com.google.android.gms.common.SignInButton>
+    </com.google.android.gms.common.SignInButton>-->
 
 </RelativeLayout>

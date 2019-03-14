@@ -1,5 +1,6 @@
 package ml.app.rkcontacts;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,18 +19,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class BranchList extends Fragment {
     @Nullable
     ListView listView;
     TextView branch;
     String school;
-
-    String jasonstring= "{\"branch\":[{\"id\":\"CE\",\"name\":\"Computer Engineering\",\"school\":\"SDS\"},{\"id\":\"EE\",\"name\":\"Electrical Engineering\",\"school\":\"SDS\"}]}";
+    String jasonstring;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.branch_list, container, false);
         school = getArguments().getString("school");
+        SharedPreferences prefsjsn = getActivity().getSharedPreferences("data", MODE_PRIVATE);
+        jasonstring = prefsjsn.getString("bulk", "");
 
 //        Toast.makeText(getContext(), school, Toast.LENGTH_SHORT).show();
 
@@ -44,12 +48,13 @@ public class BranchList extends Fragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String name = jsonObject.getString("name");
-                String id = jsonObject.getString("id");
+                String branch = jsonObject.getString("branch");
                 String schoolid = jsonObject.getString("school");
                 if (schoolid.equals(school)){
-                    schoollist.add(id+" - "+name);
+                    schoollist.add(branch+" - "+name);
                 }
             }
+            schoollist.add("GEN - General Department");
             ArrayAdapter<String> customAdapter=new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1,schoollist);
             listView.setAdapter(customAdapter);
         } catch (JSONException e) {

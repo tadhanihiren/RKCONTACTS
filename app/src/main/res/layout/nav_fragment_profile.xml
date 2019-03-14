@@ -99,6 +99,8 @@
                         android:id="@+id/nameet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:selectAllOnFocus="true"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -143,6 +145,10 @@
                         android:id="@+id/mobileev"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:lines="1"
+                        android:maxLength="10"
+                        android:selectAllOnFocus="true"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -165,6 +171,9 @@
                         android:id="@+id/extet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:maxLength="3"
+                        android:selectAllOnFocus="true"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -180,6 +189,7 @@
 
 
             <TextView
+                android:id="@+id/aboutsection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -214,11 +224,10 @@
                         android:layout_height="wrap_content"
                         android:text="Gender" />
 
-                    <EditText
-                        android:id="@+id/genderet"
+                    <Spinner
+                        android:id="@+id/gendersp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Male"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />
 
@@ -252,8 +261,8 @@
                         android:layout_height="wrap_content"
                         android:text="School" />
 
-                    <EditText
-                        android:id="@+id/schoolet"
+                    <Spinner
+                        android:id="@+id/schoolsp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="SDS"
@@ -290,8 +299,8 @@
                         android:layout_height="wrap_content"
                         android:text="Branch" />
 
-                    <EditText
-                        android:id="@+id/branchet"
+                    <Spinner
+                        android:id="@+id/branchsp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="CE"
@@ -301,6 +310,23 @@
                 </LinearLayout>
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/updtprflbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="Update Profile"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

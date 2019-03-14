@@ -74,7 +74,7 @@ public class ListViewAdapter extends BaseAdapter {
         holder.mTitleTv.setText(modellist.get(postition).getName());
 //        holder.mDescTv.setText(modellist.get(postition).getEmail());
         //set the result in imageview
-        if (!modellist.get(postition).getIcon().equals("http://blms.ml/defaultuser.png"))
+        if (!modellist.get(postition).getIcon().equals(""))
             Picasso.get().load(modellist.get(postition).getIcon()).into(holder.mIconIv);
         else
             holder.mIconIv.setImageResource(R.drawable.profile);
@@ -119,5 +119,4 @@ public class ListViewAdapter extends BaseAdapter {
         }
         notifyDataSetChanged();
     }
-
 }

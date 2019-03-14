@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 
 public class FacultyDetail extends Fragment {
     String name, email, icon, mobile, ext, gender, school, branch;
-    TextView nametv, emailtv, mobiletv, exttv, gendertv, schooltv, branchtv;
+    TextView nametv, emailtv, mobiletv, exttv, gendertv, schooltv, branchtv,aboutsection;
     ImageView iconev;
     LinearLayout callll, smsll, emailll, lnrcall, lnremail;
 
@@ -87,6 +87,7 @@ public class FacultyDetail extends Fragment {
         emailtv = view.findViewById(R.id.lnrtvemail);
         mobiletv = view.findViewById(R.id.lnrtvcall);
         exttv = view.findViewById(R.id.lnrtvext);
+        aboutsection=view.findViewById(R.id.aboutsection);
         gendertv = view.findViewById(R.id.lnrtvgen);
         schooltv = view.findViewById(R.id.lnrtvsch);
         branchtv = view.findViewById(R.id.lnrtvbra);
@@ -96,10 +97,11 @@ public class FacultyDetail extends Fragment {
         emailtv.setText(email);
         mobiletv.setText(mobile);
         exttv.setText(ext);
+        aboutsection.setText("About "+name);
         gendertv.setText(gender);
         schooltv.setText(school);
         branchtv.setText(branch);
-        if (!icon.equals("http://blms.ml/defaultuser.png"))
+        if (!icon.equals(""))
             Picasso.get().load(icon).into(iconev);
         else
             iconev.setImageResource(R.drawable.profile);

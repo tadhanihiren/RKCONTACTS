@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,7 +41,7 @@ import static java.lang.Boolean.TRUE;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     String temp = "hpanchani813@rku.ac.in";
-    SignInButton login;
+    ImageView login;
     private SpotsDialog progressDialog;
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
