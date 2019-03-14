@@ -178,6 +178,7 @@
                             android:layout_height="wrap_content"
                             android:text="+91 7359737457"
                             android:textColor="@android:color/black"
+                            android:textIsSelectable="true"
                             android:textSize="20sp" />
 
                         <TextView
@@ -257,6 +258,7 @@
                             android:layout_height="wrap_content"
                             android:text="hpanchani813@rku.ac.in"
                             android:textColor="@android:color/black"
+                            android:textIsSelectable="true"
                             android:textSize="20sp" />
 
                         <TextView
