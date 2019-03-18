@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
+import ml.app.rkcontacts.GlobalFunctions;
 import ml.app.rkcontacts.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -59,7 +58,7 @@ public class NavProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.nav_fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.nav_profile, container, false);
 
         SharedPreferences prefsjsn = getActivity().getSharedPreferences("data", MODE_PRIVATE);
         jasonstring = prefsjsn.getString("bulk", "");
@@ -93,7 +92,6 @@ public class NavProfileFragment extends Fragment {
         gendersp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getContext(),gender[position] , Toast.LENGTH_LONG).show();
                 if (position == 0)
                     editgender = "";
                 else
@@ -110,7 +108,6 @@ public class NavProfileFragment extends Fragment {
         schoolsp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getContext(), school.get(position).toString(), Toast.LENGTH_SHORT).show();
                 editschool = school.get(position).toString();
                 if (position == 0)
                     editschool = "";
@@ -151,7 +148,6 @@ public class NavProfileFragment extends Fragment {
         updt_prfl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                updt_prfl.setEnabled(false);
                 if (ValidateUpdateData()) {
                     UpdateProfile();
                 }
@@ -179,7 +175,7 @@ public class NavProfileFragment extends Fragment {
                                 if (jsonArray.length() == 0) {
                                     progressDialog.dismiss();
                                     DetachFragment();
-                                    Toast.makeText(getContext(), "Email Not Found in the database", Toast.LENGTH_LONG).show();
+                                    AlertMessage("Email Not Found in the database");
 
                                 } else {
                                     for (int i = 0; i < 1; i++) {
@@ -233,7 +229,7 @@ public class NavProfileFragment extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             DetachFragment();
                             progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Unable to Update Profile at the Moment.", Toast.LENGTH_SHORT).show();
+                            AlertMessage("Please check your internet connection.");
                         }
                     }) {
                 @Override
@@ -263,11 +259,10 @@ public class NavProfileFragment extends Fragment {
                             JSONArray jsonArray = ob.getJSONArray("response");
                             for (int i = 0; i < 1; i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                if (jsonObject.getString("status").equals("success")){
+                                if (jsonObject.getString("status").equals("success")) {
                                     AlertMessage("Profile updated successfully");
                                     DetachFragment();
-                                }
-                                else
+                                } else
                                     AlertMessage("Failed to update profile. please try again");
                                 progressDialog.dismiss();
                             }
@@ -275,6 +270,7 @@ public class NavProfileFragment extends Fragment {
                             e.printStackTrace();
                             progressDialog.dismiss();
                             AlertMessage("Failed to update profile. please try again");
+                            DetachFragment();
                         }
 
                     }
@@ -283,7 +279,8 @@ public class NavProfileFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Unable to Update Profile at the Moment.", Toast.LENGTH_SHORT).show();
+                        AlertMessage("Please check your internet connection.");
+                        DetachFragment();
                     }
                 }) {
             @Override
@@ -368,7 +365,7 @@ public class NavProfileFragment extends Fragment {
         alert.setIcon(R.drawable.ic_info_black_24dp);
         alert.setTitle("Info!!!");
         alert.setMessage(msg);
-        alert.setPositiveButton("OK",null);
+        alert.setPositiveButton("OK", null);
         alert.show();
 
 //        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
@@ -403,19 +400,8 @@ public class NavProfileFragment extends Fragment {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     if (jsonObject.getString("school").equals(schoolid)) {
                         String branchid = jsonObject.getString("branch");
-                        try {
-                            JSONObject ob1 = new JSONObject(jasonstring);
-                            JSONArray jsonArray1 = ob1.getJSONArray("branch_master");
-                            for (int j = 0; j < jsonArray1.length(); j++) {
-                                JSONObject jsonObject1 = jsonArray1.getJSONObject(j);
-                                if (jsonObject1.getString("id").equals(branchid)) {
-                                    branch.add(new SetArrayAdapterClass(branchid + " - " + jsonObject1.getString("name")));
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
+                        GlobalFunctions gb = new GlobalFunctions(getContext());
+                        branch.add(new SetArrayAdapterClass(branchid + " - " + gb.getBranchName(branchid)));
                     }
                 }
                 branch.add(new SetArrayAdapterClass("GEN - General Department"));
@@ -428,8 +414,8 @@ public class NavProfileFragment extends Fragment {
     }
 
     private void DetachFragment() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.popBackStack();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new NavDashboardFragment()).commit();
     }
 }
 

@@ -110,7 +110,7 @@ public class FacultyList extends Fragment {
 
         //bind the adapter to the listview
         listView.setAdapter(adapter);
-
+        getActivity().setTitle("Faculties of " + school + " " + branch);
         return view;
     }
     @Override

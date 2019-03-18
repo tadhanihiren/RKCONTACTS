@@ -1,8 +1,7 @@
 package ml.app.rkcontacts;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,19 +82,20 @@ public class ListViewAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FacultyDetail fragment = new FacultyDetail();
-                Bundle arguments = new Bundle();
-                arguments.putString("name", modellist.get(postition).getName());
-                arguments.putString("email", modellist.get(postition).getEmail());
-                arguments.putString("icon", modellist.get(postition).getIcon());
-                arguments.putString("mobile", modellist.get(postition).getMobile());
-                arguments.putString("ext", modellist.get(postition).getExt());
-                arguments.putString("gender", modellist.get(postition).getGender());
-                arguments.putString("school", modellist.get(postition).getSchool());
-                arguments.putString("branch", modellist.get(postition).getBranch());
-                fragment.setArguments(arguments);
-                ((AppCompatActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                Intent i = new Intent(view.getContext(),
+                        FacultyDetail.class);
 
+                //PACK DATA
+                i.putExtra("name", modellist.get(postition).getName());
+                i.putExtra("email", modellist.get(postition).getEmail());
+                i.putExtra("icon", modellist.get(postition).getIcon());
+                i.putExtra("mobile", modellist.get(postition).getMobile());
+                i.putExtra("ext", modellist.get(postition).getExt());
+                i.putExtra("gender", modellist.get(postition).getGender());
+                i.putExtra("school", modellist.get(postition).getSchool());
+                i.putExtra("branch", modellist.get(postition).getBranch());
+
+                mContext.startActivity(i);
             }
         });
 

@@ -1,7 +1,5 @@
-package ml.app.rkcontacts.navigation;
+package ml.app.rkcontacts.dashboardtab;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +39,7 @@ import ml.app.rkcontacts.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class NavContactsFragment extends Fragment {
+public class TabContactDashboard extends Fragment {
     ListView listView;
     private SpotsDialog progressDialog;
     ListViewAdapter adapter;
@@ -57,15 +54,15 @@ public class NavContactsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.nav_fragment_contacts, container, false);
+        LayoutInflater lf = this.getActivity().getLayoutInflater();
+        View view = lf.inflate(R.layout.tab_contact_dashboard, container, false);
 
         progressDialog = new SpotsDialog(getContext(), R.style.Custom);
         progressDialog.setCancelable(false);
 
         SharedPreferences prefsjsn = getActivity().getSharedPreferences("data", MODE_PRIVATE);
         jsondata = prefsjsn.getString("bulk", "");
-//        UpdateData("auto");
-        getActivity().setTitle("Contacts");
+        UpdateData("auto");
 
 
         listView = view.findViewById(R.id.listView);
@@ -106,41 +103,12 @@ public class NavContactsFragment extends Fragment {
 
         //bind the adapter to the listview
         listView.setAdapter(adapter);
-
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    alertDialog.setTitle("Confirm Exit...");
-                    alertDialog.setMessage("Are you sure you want exit application?");
-                    alertDialog.setIcon(R.drawable.ic_exit_to_app_black_24dp);
-                    alertDialog.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            getActivity().finish();
-                        }
-                    });
-
-                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    alertDialog.show();
-
-                }
-                return false;
-            }
-        });
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.menu, menu);
 
         MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
@@ -162,7 +130,8 @@ public class NavContactsFragment extends Fragment {
                 return true;
             }
         });
-        super.onCreateOptionsMenu(menu, inflater);
+//        menu.clear();
+//        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

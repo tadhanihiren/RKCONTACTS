@@ -28,15 +28,13 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
-import ml.app.rkcontacts.navigation.NavContactsFragment;
 import ml.app.rkcontacts.navigation.NavDashboardFragment;
-import ml.app.rkcontacts.navigation.NavPersonalFragment;
 import ml.app.rkcontacts.navigation.NavProfileFragment;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private DrawerLayout drawer;
     TextView dispname, dispemail;
-    String Gmail,Gname;
+    String Gmail, Gname;
     Uri Gprofile;
     ImageView Gimage;
     private GoogleApiClient googleApiClient;
@@ -48,7 +46,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_home);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        googleApiClient=new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,16 +56,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         View headerView = navigationView.getHeaderView(0);
 
-        GoogleSignInAccount acct= GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        if (acct !=null){
-            Gname=acct.getDisplayName();
-            Gmail=acct.getEmail();
-            Gprofile=acct.getPhotoUrl();
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        if (acct != null) {
+            Gname = acct.getDisplayName();
+            Gmail = acct.getEmail();
+            Gprofile = acct.getPhotoUrl();
 
 
             dispemail = headerView.findViewById(R.id.dispemail);
             dispname = headerView.findViewById(R.id.dispname);
-            Gimage=headerView.findViewById(R.id.profile);
+            Gimage = headerView.findViewById(R.id.profile);
             dispemail.setText(Gmail);
             dispname.setText(Gname);
 
@@ -84,8 +82,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new NavContactsFragment()).commit();
-            navigationView.setCheckedItem(R.id.cntct);
+                    new NavDashboardFragment()).commit();
+            navigationView.setCheckedItem(R.id.dshbrd);
         }
     }
 
@@ -98,18 +96,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.dshrd:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavDashboardFragment()).addToBackStack("groups").commit();
-                break;
-            case R.id.cntct:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavContactsFragment()).addToBackStack("contacts").commit();
-                break;
-//            case R.id.prsnl:
+//            case R.id.grps:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new NavPersonalFragment()).addToBackStack(null).commit();
+//                        new NavDashboardFragment()).addToBackStack("groups").commit();
 //                break;
+//            case R.id.cntct:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        new NavContactsFragment()).addToBackStack("contacts").commit();
+//                break;
+            case R.id.dshbrd:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new NavDashboardFragment()).commit();
+                break;
             case R.id.shr:
 
                 break;
@@ -134,7 +132,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         dataeditor.apply();
 
                         finish();
-                        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(i);
                     }
                 });
@@ -146,29 +144,33 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
 
-
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed();
-//            return;
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce = false;
-//            }
-//        }, 1000);
-//    }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        if (this.drawer.isDrawerOpen(GravityCompat.START)) {
+            this.drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 1000);
+    }
+
 }

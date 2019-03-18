@@ -75,7 +75,7 @@ public class BranchList extends Fragment {
             }
         });
 
-        getActivity().setTitle("Select Branch");
+        getActivity().setTitle("Select Department");
         return view;
     }
 }
