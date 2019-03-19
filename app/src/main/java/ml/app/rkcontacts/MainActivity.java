@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 progressDialog.dismiss();
                 gf.AlertMessage(MainActivity.this, "Please Login with RKU Email ID");
             } else {
-                String JSON_URL = "http://rkuinfo.ml/getbulk.php";
+                String JSON_URL = getText(R.string.url) + "/getbulk.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                         new Response.Listener<String>() {
                             @Override

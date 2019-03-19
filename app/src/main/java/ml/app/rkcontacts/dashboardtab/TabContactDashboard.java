@@ -142,7 +142,8 @@ public class TabContactDashboard extends Fragment {
     }
 
     private void UpdateData(final String type) {
-        String JSON_URL = "http://rkuinfo.ml/getbulk.php";
+        String JSON_URL = getText(R.string.url) + "/getbulk.php";
+//        Toast.makeText(getContext(), JSON_URL, Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override

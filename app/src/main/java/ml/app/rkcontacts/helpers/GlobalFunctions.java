@@ -80,7 +80,7 @@ public class GlobalFunctions {
     }
 
     public void UpdateData() {
-        String JSON_URL = "http://rkuinfo.ml/getbulk.php";
+        String JSON_URL = mContext.getText(R.string.url) + "/getbulk.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override

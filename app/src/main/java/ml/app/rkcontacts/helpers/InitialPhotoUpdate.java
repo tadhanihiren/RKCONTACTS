@@ -15,6 +15,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import ml.app.rkcontacts.R;
+
 public class InitialPhotoUpdate extends AsyncTask<String, Void, String> {
     Context ctx;
     String test;
@@ -31,7 +33,7 @@ public class InitialPhotoUpdate extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String reg_url = "http://rkuinfo.ml/update_profile.php";
+        String reg_url = ctx.getText(R.string.url) + "/update_profile.php";
         String method = params[0];
         if (method.equals("update")) {
 

@@ -16,4 +16,5 @@
     <string name="select_gender">Select Gender</string>
     <string name="dashboard">Dashboard</string>
     <string name="rkucontacts">RKU Contacts</string>
+    <string name="url">https://www.rkuinfo.ml</string>
 </resources>

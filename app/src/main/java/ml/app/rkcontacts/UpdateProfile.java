@@ -1,5 +1,7 @@
 package ml.app.rkcontacts;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -161,7 +163,7 @@ public class UpdateProfile extends AppCompatActivity {
 
         if (!email.equals("")) {
             progressDialog.show();
-            String JSON_URL = "http://rkuinfo.ml/update_profile.php";
+            String JSON_URL = getText(R.string.url) + "/update_profile.php";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                     new Response.Listener<String>() {
                         @Override
@@ -173,7 +175,7 @@ public class UpdateProfile extends AppCompatActivity {
                                 if (jsonArray.length() == 0) {
                                     progressDialog.dismiss();
 //                                    DetachFragment();
-                                    gb.AlertMessage(UpdateProfile.this, "Email Not Found in the database");
+                                    AlertMessage("Email Not Found in the database");
 
                                 } else {
                                     for (int i = 0; i < 1; i++) {
@@ -227,7 +229,7 @@ public class UpdateProfile extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
 //                            DetachFragment();
                             progressDialog.dismiss();
-                            gb.AlertMessage(UpdateProfile.this, "Please check your internet connection.");
+                            AlertMessage("Please check your internet connection.");
                         }
                     }) {
                 @Override
@@ -246,7 +248,7 @@ public class UpdateProfile extends AppCompatActivity {
 
     private void UpdateProfile() {
         progressDialog.show();
-        String JSON_URL = "http://rkuinfo.ml/update_profile.php";
+        String JSON_URL = getText(R.string.url) + "/update_profile.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -259,16 +261,16 @@ public class UpdateProfile extends AppCompatActivity {
                                 if (jsonObject.getString("status").equals("success")) {
                                     GlobalFunctions gf = new GlobalFunctions(UpdateProfile.this);
                                     gf.UpdateData();
-                                    gb.AlertMessage(UpdateProfile.this, "Profile updated successfully");
+                                    AlertMessage("Profile updated successfully");
 //                                    DetachFragment();
                                 } else
-                                    gb.AlertMessage(UpdateProfile.this, "Failed to update profile. please try again");
+                                    AlertMessage("Failed to update profile. please try again");
                                 progressDialog.dismiss();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             progressDialog.dismiss();
-                            gb.AlertMessage(UpdateProfile.this, "Failed to update profile. please try again");
+                            AlertMessage("Failed to update profile. please try again");
 //                            DetachFragment();
                         }
 
@@ -278,7 +280,7 @@ public class UpdateProfile extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        gb.AlertMessage(UpdateProfile.this, "Please check your internet connection.");
+                        AlertMessage("Please check your internet connection.");
 //                        DetachFragment();
                     }
                 }) {
@@ -318,53 +320,53 @@ public class UpdateProfile extends AppCompatActivity {
         if (!editname.equals("")) {
             if (!editname.matches("^[a-zA-Z]+\\s[a-zA-Z].*")) {
                 nameet.requestFocus();
-                gb.AlertMessage(UpdateProfile.this, "Please Write Full Name");
+                AlertMessage("Please Write Full Name");
                 return false;
             }
         } else {
             nameet.requestFocus();
-            gb.AlertMessage(UpdateProfile.this, "Name Field must not be empty");
+            AlertMessage("Name Field must not be empty");
             return false;
         }
 
         if (!editmobile.equals("")) {
             if (editmobile.length() != 10) {
                 mobileet.requestFocus();
-                gb.AlertMessage(UpdateProfile.this, "Please Enter 10 - Digit Mobile Number");
+                AlertMessage("Please Enter 10 - Digit Mobile Number");
                 return false;
             }
         } else {
             mobileet.requestFocus();
-            gb.AlertMessage(UpdateProfile.this, "Mobile Field must not be empty");
+            AlertMessage("Mobile Field must not be empty");
             return false;
         }
 
         if (!editext.equals("")) {
             if (editext.length() != 3) {
                 extet.requestFocus();
-                gb.AlertMessage(UpdateProfile.this, "Please Enter 3 - Digit Extension Number");
+                AlertMessage("Please Enter 3 - Digit Extension Number");
                 return false;
             }
         } else {
             editext = "NULL";
 //            extet.requestFocus();
-//            gb.AlertMessage(UpdateProfile.this,"Extension Field must not be empty");
+//            AlertMessage("Extension Field must not be empty");
 //            return false;
         }
 
         if (editgender.equals("")) {
             gendersp.requestFocus();
-            gb.AlertMessage(UpdateProfile.this, "Please select your Gender");
+            AlertMessage("Please select your Gender");
             return false;
         }
         if (editschool.equals("")) {
             schoolsp.requestFocus();
-            gb.AlertMessage(UpdateProfile.this, "Please select your School");
+            AlertMessage("Please select your School");
             return false;
         }
         if (editbranch.equals("")) {
             branchsp.requestFocus();
-            gb.AlertMessage(UpdateProfile.this, "Please select your Branch");
+            AlertMessage("Please select your Branch");
             return false;
         }
         return true;
@@ -414,6 +416,22 @@ public class UpdateProfile extends AppCompatActivity {
     private void DetachFragment() {
 
     }
+
+    public void AlertMessage(String msg) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(UpdateProfile.this);
+        alert.setIcon(R.drawable.ic_info_black_24dp);
+        alert.setTitle("Info!!!");
+        alert.setMessage(msg);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alert.show();
+
+    }
+
 }
 
 
