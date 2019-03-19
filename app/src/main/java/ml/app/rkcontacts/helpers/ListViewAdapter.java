@@ -1,4 +1,4 @@
-package ml.app.rkcontacts;
+package ml.app.rkcontacts.helpers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import ml.app.rkcontacts.FacultyDetail;
+import ml.app.rkcontacts.R;
 
 public class ListViewAdapter extends BaseAdapter {
 

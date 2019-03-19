@@ -2,7 +2,6 @@ package ml.app.rkcontacts;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -29,13 +28,12 @@ import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
 import ml.app.rkcontacts.navigation.NavDashboardFragment;
-import ml.app.rkcontacts.navigation.NavProfileFragment;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private DrawerLayout drawer;
     TextView dispname, dispemail;
     String Gmail, Gname;
-    Uri Gprofile;
+    String Gprofile;
     ImageView Gimage;
     private GoogleApiClient googleApiClient;
 
@@ -60,8 +58,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (acct != null) {
             Gname = acct.getDisplayName();
             Gmail = acct.getEmail();
-            Gprofile = acct.getPhotoUrl();
-
+            if (acct.getPhotoUrl() != null)
+                Gprofile = acct.getPhotoUrl().toString();
+            else
+                Gprofile = "";
 
             dispemail = headerView.findViewById(R.id.dispemail);
             dispname = headerView.findViewById(R.id.dispname);
@@ -69,8 +69,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             dispemail.setText(Gmail);
             dispname.setText(Gname);
 
-            Picasso.get().load(Gprofile).into(Gimage);
-
+            if (!Gprofile.equals(""))
+                Picasso.get().load(Gprofile).into(Gimage);
+            else
+                Gimage.setImageResource(R.drawable.profile);
         }
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -96,28 +98,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.grps:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new NavDashboardFragment()).addToBackStack("groups").commit();
-//                break;
-//            case R.id.cntct:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new NavContactsFragment()).addToBackStack("contacts").commit();
-//                break;
             case R.id.dshbrd:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new NavDashboardFragment()).commit();
                 break;
-            case R.id.shr:
-
-                break;
-            case R.id.updt:
-
-                break;
+//            case R.id.shr:
+//
+//                break;
+//            case R.id.updt:
+//
+//                break;
 
             case R.id.prfle:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NavProfileFragment()).addToBackStack(null).commit();
+                Intent i = new Intent(getApplicationContext(), UpdateProfile.class);
+                startActivity(i);
                 break;
             case R.id.s_lgt:
                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {

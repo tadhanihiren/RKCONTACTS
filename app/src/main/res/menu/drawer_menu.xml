@@ -4,27 +4,10 @@
     tools:showIn="navigation_view">
 
     <group>
-        <!--<item-->
-        <!--android:id="@+id/cntct"-->
-        <!--android:title="@string/contacts" />-->
-        <!--<item-->
-        <!--android:id="@+id/grps"-->
-        <!--android:title="@string/groups" />-->
         <item
             android:id="@+id/dshbrd"
             android:title="@string/dashboard" />
     </group>
-
-    <item android:title="@string/about">
-        <menu>
-            <item
-                android:id="@+id/shr"
-                android:title="@string/share" />
-            <item
-                android:id="@+id/updt"
-                android:title="@string/update" />
-        </menu>
-    </item>
 
     <item android:title="@string/account">
         <menu>
@@ -36,4 +19,15 @@
                 android:title="@string/logout" />
         </menu>
     </item>
+
+    <!--<item android:title="@string/about">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/shr"-->
+    <!--android:title="@string/share" />-->
+    <!--<item-->
+    <!--android:id="@+id/updt"-->
+    <!--android:title="@string/update" />-->
+    <!--</menu>-->
+    <!--</item>-->
 </menu>

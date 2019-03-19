@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Groups"></activity>
+        <activity android:name=".UpdateProfile"></activity>
+        <activity android:name=".Groups" />
         <activity android:name=".FacultyDetail" />
         <activity android:name=".Home" />
         <activity android:name=".MainActivity">

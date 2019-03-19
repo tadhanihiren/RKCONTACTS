@@ -21,6 +21,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ml.app.rkcontacts.helpers.ListViewAdapter;
+import ml.app.rkcontacts.helpers.Model;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class FacultyList extends Fragment {
@@ -30,7 +33,7 @@ public class FacultyList extends Fragment {
 
     String jsondata;
 
-    ArrayList<Model> arrayList = new ArrayList<Model>();
+    ArrayList<Model> arrayList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -74,8 +77,6 @@ public class FacultyList extends Fragment {
                         //bind all strings in an array
                         arrayList.add(model);
                     }
-
-
                 }
             } else {
                 for (int i = 0; i < jsonArray.length(); i++) {

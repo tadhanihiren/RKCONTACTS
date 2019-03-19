@@ -1,4 +1,4 @@
-package ml.app.rkcontacts;
+package ml.app.rkcontacts.helpers;
 
 public class Model {
     String name;

@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -35,6 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
+import ml.app.rkcontacts.helpers.GlobalFunctions;
+import ml.app.rkcontacts.helpers.InitialPhotoUpdate;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -45,11 +45,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private SpotsDialog progressDialog;
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
+    GlobalFunctions gf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        gf = new GlobalFunctions(MainActivity.this);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
-        if (loginStatus() == TRUE) {
+        if (LoginStatus() == TRUE) {
             Intent i = new Intent(getApplicationContext(), Home.class);
             startActivity(i);
             finish();
@@ -79,8 +81,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void signin() {
+        progressDialog.show();
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        progressDialog.dismiss();
+//        progressDialog.dismiss();
         startActivityForResult(intent, REQ_CODE);
     }
 
@@ -100,28 +103,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            progressDialog.show();
             GoogleSignInAccount account = result.getSignInAccount();
             final String email = account.getEmail();
             String profile = "";
             if (!(account.getPhotoUrl() == null)) {
                 profile = account.getPhotoUrl().toString();
-//                Toast.makeText(this, profile, Toast.LENGTH_SHORT).show();
             }
-//            String gender = account.gen
 
 
             if (!email.matches("^[a-zA-Z]+.[a-zA-Z]+@rku.ac.in$") && !email.equals(temp)) {
                 Logout();
                 progressDialog.dismiss();
-                Toast.makeText(this, "Please Login with RKU Email ID", Toast.LENGTH_LONG).show();
+                gf.AlertMessage(MainActivity.this, "Please Login with RKU Email ID");
             } else {
                 String JSON_URL = "http://rkuinfo.ml/getbulk.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                if (savedata("bulk", response)) {
+                                if (SaveData("bulk", response)) {
                                     if (SaveLogin(email)) {
                                         progressDialog.dismiss();
                                         Intent i = new Intent(getApplicationContext(), Home.class);
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                     }
                                 } else {
                                     Logout();
-                                    Toast.makeText(MainActivity.this, "No Data Found", Toast.LENGTH_LONG).show();
+                                    gf.AlertMessage(MainActivity.this, "Error connecting to server. Please try again.");
                                 }
 
                             }
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
 //                                Logout();
-                                Toast.makeText(getApplicationContext(), "Unable to fetch Data", Toast.LENGTH_SHORT).show();
+                                gf.AlertMessage(MainActivity.this, "Error connecting to server. Please try again.");
                             }
                         }) {
                     @Override
@@ -155,13 +155,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 if (!profile.equals("")) {
                     String method = "update";
-                    UpdateProfile updatedp = new UpdateProfile(this);
+                    InitialPhotoUpdate updatedp = new InitialPhotoUpdate(this);
                     updatedp.execute(method, profile, email);
                 }
             }
         } else {
             progressDialog.dismiss();
-            Toast.makeText(this, "Google Sign in error.Please use RKU Email ID", Toast.LENGTH_LONG).show();
+            gf.AlertMessage(MainActivity.this, "Google Sign in error.Please use RKU Email ID");
         }
     }
 
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
     }
 
-    private boolean savedata(String type, String response) {
+    private boolean SaveData(String type, String response) {
 
         try {
             JSONObject ob = new JSONObject(response);
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         return false;
     }
 
-    public boolean loginStatus() {
+    public boolean LoginStatus() {
         SharedPreferences prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
         String username = prefs.getString("username", "");
         if (!username.matches("^[a-zA-Z]+.[a-zA-Z]+@rku.ac.in$") && !username.equals(temp)) {

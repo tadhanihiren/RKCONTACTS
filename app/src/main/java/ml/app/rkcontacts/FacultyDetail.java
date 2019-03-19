@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import ml.app.rkcontacts.helpers.GlobalFunctions;
+
 public class FacultyDetail extends AppCompatActivity {
     String name, email, icon, mobile, ext, gender, school, branch;
     private static final String VCF_DIRECTORY = "/RKCONTACTS";
@@ -41,7 +43,6 @@ public class FacultyDetail extends AppCompatActivity {
         gb = new GlobalFunctions(getApplicationContext());
 
         Intent i = getIntent();
-
         name = i.getStringExtra("name");
         email = i.getStringExtra("email");
         icon = i.getStringExtra("icon");
@@ -186,7 +187,8 @@ public class FacultyDetail extends AppCompatActivity {
             fw.write("FN:" + name + "\r\n");
             //  fw.write("ORG:" + p.getCompanyName() + "\r\n");
             //  fw.write("TITLE:" + p.getTitle() + "\r\n");
-            fw.write("TEL;TYPE=WORK,VOICE:" + mobile + "\r\n");
+            fw.write("TEL;TYPE=Work,VOICE:" + mobile + "\r\n");
+            fw.write("TEL;TYPE=Extension:" + ext + "\r\n");
             //   fw.write("TEL;TYPE=HOME,VOICE:" + p.getHomePhone() + "\r\n");
             //   fw.write("ADR;TYPE=WORK:;;" + p.getStreet() + ";" + p.getCity() + ";" + p.getState() + ";" + p.getPostcode() + ";" + p.getCountry() + "\r\n");
             fw.write("EMAIL;TYPE=PREF,WORK:" + email + "\r\n");

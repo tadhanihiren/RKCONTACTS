@@ -31,11 +31,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
-import ml.app.rkcontacts.ListViewAdapter;
-import ml.app.rkcontacts.Model;
 import ml.app.rkcontacts.R;
+import ml.app.rkcontacts.helpers.ListViewAdapter;
+import ml.app.rkcontacts.helpers.Model;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -46,7 +47,7 @@ public class TabContactDashboard extends Fragment {
 
     String jsondata;
 
-    ArrayList<Model> arrayList = new ArrayList<Model>();
+    ArrayList<Model> arrayList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -54,7 +55,7 @@ public class TabContactDashboard extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        LayoutInflater lf = this.getActivity().getLayoutInflater();
+        LayoutInflater lf = Objects.requireNonNull(this.getActivity()).getLayoutInflater();
         View view = lf.inflate(R.layout.tab_contact_dashboard, container, false);
 
         progressDialog = new SpotsDialog(getContext(), R.style.Custom);
@@ -71,12 +72,9 @@ public class TabContactDashboard extends Fragment {
         } else {
             arrayList = new ArrayList<>();
         }
-
-
         try {
             JSONObject ob = new JSONObject(jsondata);
             JSONArray jsonArray = ob.getJSONArray("faculty");
-
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String name = jsonObject.getString("fullname");
@@ -90,9 +88,7 @@ public class TabContactDashboard extends Fragment {
                 Model model = new Model(name, email, profile, mobile, ext, gender, school, branch);
                 //bind all strings in an array
                 arrayList.add(model);
-
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -151,7 +147,7 @@ public class TabContactDashboard extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        SaveData("bulk", response);
+                        SaveData(response);
                         if (!type.equals("auto")) {
                             progressDialog.dismiss();
                             RefreshFragment();
@@ -174,29 +170,28 @@ public class TabContactDashboard extends Fragment {
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
         requestQueue.add(stringRequest);
     }
 
     private void RefreshFragment() {
+        assert getFragmentManager() != null;
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
     }
 
-    private boolean SaveData(String type, String response) {
+    private void SaveData(String response) {
         try {
             JSONObject ob = new JSONObject(response);
             JSONArray jsonArray = ob.getJSONArray("faculty");
             if (jsonArray.length() != 0) {
-                SharedPreferences.Editor editor = getContext().getSharedPreferences("data", MODE_PRIVATE).edit();
-                editor.putString(type, response);
+                SharedPreferences.Editor editor = Objects.requireNonNull(getContext()).getSharedPreferences("data", MODE_PRIVATE).edit();
+                editor.putString("bulk", response);
                 editor.apply();
                 editor.commit();
-                return true;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return false;
     }
 }
