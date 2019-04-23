@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RKCONTACTS</string>
+    <string name="app_name">RKU Contacts</string>
     <string name="groups">Groups</string>
     <string name="contacts">Contacts</string>
     <string name="personal">Personal</string>
@@ -17,4 +17,6 @@
     <string name="dashboard">Dashboard</string>
     <string name="rkucontacts">RKU Contacts</string>
     <string name="url">https://www.rkuinfo.ml</string>
+    <string name="app">App</string>
+    <string name="aboutus">About Us</string>
 </resources>

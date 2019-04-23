@@ -20,14 +20,17 @@
         </menu>
     </item>
 
-    <!--<item android:title="@string/about">-->
-    <!--<menu>-->
-    <!--<item-->
-    <!--android:id="@+id/shr"-->
-    <!--android:title="@string/share" />-->
-    <!--<item-->
-    <!--android:id="@+id/updt"-->
-    <!--android:title="@string/update" />-->
-    <!--</menu>-->
-    <!--</item>-->
+    <item android:title="@string/app">
+        <menu>
+            <item
+                android:id="@+id/updt"
+                android:title="@string/update" />
+            <item
+                android:id="@+id/shr"
+                android:title="@string/share" />
+            <item
+                android:id="@+id/abts"
+                android:title="@string/aboutus" />
+        </menu>
+    </item>
 </menu>

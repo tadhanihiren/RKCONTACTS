@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
+import ml.app.rkcontacts.helpers.GlobalFunctions;
 import ml.app.rkcontacts.navigation.NavDashboardFragment;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -36,13 +37,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     String Gprofile;
     ImageView Gimage;
     private GoogleApiClient googleApiClient;
+    GlobalFunctions gf;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        gf = new GlobalFunctions(Home.this);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
@@ -102,13 +104,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new NavDashboardFragment()).commit();
                 break;
-//            case R.id.shr:
-//
-//                break;
-//            case R.id.updt:
-//
-//                break;
-
+            case R.id.updt:
+                gf.UpdateApp("manual");
+                break;
+            case R.id.shr:
+                gf.ShareApp();
+                break;
             case R.id.prfle:
                 Intent i = new Intent(getApplicationContext(), UpdateProfile.class);
                 startActivity(i);

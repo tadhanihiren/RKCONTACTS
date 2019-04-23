@@ -2,7 +2,10 @@ package ml.app.rkcontacts.helpers;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -119,4 +122,82 @@ public class GlobalFunctions {
             e.printStackTrace();
         }
     }
+
+    public void UpdateApp(String type) {
+        int ver = 2;
+
+        SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
+        jsondata = prefsjsn.getString("bulk", "");
+        try {
+            JSONObject ob = new JSONObject(jsondata);
+            JSONArray jsonArray = ob.getJSONArray("app_update");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                final JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (ver < Integer.parseInt(jsonObject.getString("ver"))) {
+                    final String link = jsonObject.getString("link");
+                    final String uver = jsonObject.getString("ver");
+
+                    SharedPreferences.Editor logineditor = mContext.getSharedPreferences("app", MODE_PRIVATE).edit();
+                    logineditor.clear().commit();
+                    logineditor.apply();
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                    alert.setIcon(R.drawable.ic_info_black_24dp);
+                    alert.setTitle("Update Found!!!");
+                    alert.setMessage("Do you want to update? ");
+                    alert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse(link));
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    alert.setNegativeButton("Skip this version.", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences.Editor editor = mContext.getSharedPreferences("app", MODE_PRIVATE).edit();
+                            editor.putString("update", uver);
+                            editor.apply();
+                            editor.commit();
+                        }
+                    });
+                    alert.show();
+                } else {
+                    if (!type.equals("auto")) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                        alert.setIcon(R.drawable.ic_info_black_24dp);
+                        alert.setTitle("Info!!!");
+                        alert.setMessage("You are using the latest version");
+                        alert.setPositiveButton("ok", null);
+                        alert.show();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ShareApp() {
+        SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
+        jsondata = prefsjsn.getString("bulk", "");
+        try {
+            JSONObject ob = new JSONObject(jsondata);
+            JSONArray jsonArray = ob.getJSONArray("app_update");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                final String link = jsonObject.getString("link");
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, link);
+                sendIntent.setType("text/plain");
+                mContext.startActivity(sendIntent);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -35,6 +35,7 @@ import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 import ml.app.rkcontacts.R;
+import ml.app.rkcontacts.helpers.GlobalFunctions;
 import ml.app.rkcontacts.helpers.ListViewAdapter;
 import ml.app.rkcontacts.helpers.Model;
 
@@ -44,7 +45,7 @@ public class TabContactDashboard extends Fragment {
     ListView listView;
     private SpotsDialog progressDialog;
     ListViewAdapter adapter;
-
+    GlobalFunctions gf;
     String jsondata;
 
     ArrayList<Model> arrayList = new ArrayList<>();
@@ -57,6 +58,7 @@ public class TabContactDashboard extends Fragment {
         setHasOptionsMenu(true);
         LayoutInflater lf = Objects.requireNonNull(this.getActivity()).getLayoutInflater();
         View view = lf.inflate(R.layout.tab_contact_dashboard, container, false);
+        gf = new GlobalFunctions(getContext());
 
         progressDialog = new SpotsDialog(getContext(), R.style.Custom);
         progressDialog.setCancelable(false);
@@ -65,6 +67,9 @@ public class TabContactDashboard extends Fragment {
         jsondata = prefsjsn.getString("bulk", "");
         UpdateData("auto");
 
+        SharedPreferences prefup = getActivity().getSharedPreferences("app", MODE_PRIVATE);
+        if (prefup.getString("update", "").equals(""))
+            gf.UpdateApp("auto");
 
         listView = view.findViewById(R.id.listView);
         if (arrayList != null) {
