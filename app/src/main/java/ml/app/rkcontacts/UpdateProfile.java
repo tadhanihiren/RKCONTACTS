@@ -39,7 +39,7 @@ import ml.app.rkcontacts.helpers.GlobalFunctions;
 
 public class UpdateProfile extends AppCompatActivity {
     int branchcache;
-    String email, jasonstring, oldschool;
+    String email, jasonstring, oldschool, profile;
     String[] gender = {"Select Gender", "Male", "Female"};
     TextView emailtv, aboutsection;
     EditText nameet, mobileet, extet;
@@ -159,6 +159,10 @@ public class UpdateProfile extends AppCompatActivity {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
             email = acct.getEmail();
+            if (acct.getPhotoUrl() != null)
+                profile = acct.getPhotoUrl().toString();
+            else
+                profile = "";
         }
 
         if (!email.equals("")) {
@@ -174,8 +178,10 @@ public class UpdateProfile extends AppCompatActivity {
                                 JSONArray jsonArray = ob.getJSONArray("faculty");
                                 if (jsonArray.length() == 0) {
                                     progressDialog.dismiss();
+                                    emailtv.setText(email);
+                                    updt_prfl.setText("Create Profile");
 //                                    DetachFragment();
-                                    AlertMessage("Email Not Found in the database");
+//                                    AlertMessage("Email Not Found in the database");
 
                                 } else {
                                     for (int i = 0; i < 1; i++) {
@@ -229,7 +235,7 @@ public class UpdateProfile extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
 //                            DetachFragment();
                             progressDialog.dismiss();
-                            AlertMessage("Please check your internet connection.");
+                            AlertMessage("Please check your internet connection.", true);
                         }
                     }) {
                 @Override
@@ -261,16 +267,17 @@ public class UpdateProfile extends AppCompatActivity {
                                 if (jsonObject.getString("status").equals("success")) {
                                     GlobalFunctions gf = new GlobalFunctions(UpdateProfile.this);
                                     gf.UpdateData();
-                                    AlertMessage("Profile updated successfully");
+                                    AlertMessage("Profile updated successfully", true);
 //                                    DetachFragment();
                                 } else
-                                    AlertMessage("Failed to update profile. please try again");
+//                                    AlertMessage(jsonObject.getString("status"));
+                                    AlertMessage("Failed to update profile. please try again", true);
                                 progressDialog.dismiss();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             progressDialog.dismiss();
-                            AlertMessage("Failed to update profile. please try again");
+                            AlertMessage("Failed to update profile. please try again", true);
 //                            DetachFragment();
                         }
 
@@ -280,7 +287,7 @@ public class UpdateProfile extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        AlertMessage("Please check your internet connection.");
+                        AlertMessage("Please check your internet connection.", true);
 //                        DetachFragment();
                     }
                 }) {
@@ -295,6 +302,7 @@ public class UpdateProfile extends AppCompatActivity {
                 params.put("gender", editgender);
                 params.put("school", editschool);
                 params.put("branch", editbranch);
+                params.put("profile", profile);
                 return params;
             }
         };
@@ -320,31 +328,31 @@ public class UpdateProfile extends AppCompatActivity {
         if (!editname.equals("")) {
             if (!editname.matches("^[a-zA-Z]+\\s[a-zA-Z].*")) {
                 nameet.requestFocus();
-                AlertMessage("Please Write Full Name");
+                AlertMessage("Please Write Full Name", false);
                 return false;
             }
         } else {
             nameet.requestFocus();
-            AlertMessage("Name Field must not be empty");
+            AlertMessage("Name Field must not be empty", false);
             return false;
         }
 
         if (!editmobile.equals("")) {
             if (editmobile.length() != 10) {
                 mobileet.requestFocus();
-                AlertMessage("Please Enter 10 - Digit Mobile Number");
+                AlertMessage("Please Enter 10 - Digit Mobile Number", false);
                 return false;
             }
         } else {
             mobileet.requestFocus();
-            AlertMessage("Mobile Field must not be empty");
+            AlertMessage("Mobile Field must not be empty", false);
             return false;
         }
 
         if (!editext.equals("")) {
             if (editext.length() != 3) {
                 extet.requestFocus();
-                AlertMessage("Please Enter 3 - Digit Extension Number");
+                AlertMessage("Please Enter 3 - Digit Extension Number", false);
                 return false;
             }
         } else {
@@ -356,17 +364,17 @@ public class UpdateProfile extends AppCompatActivity {
 
         if (editgender.equals("")) {
             gendersp.requestFocus();
-            AlertMessage("Please select your Gender");
+            AlertMessage("Please select your Gender", false);
             return false;
         }
         if (editschool.equals("")) {
             schoolsp.requestFocus();
-            AlertMessage("Please select your School");
+            AlertMessage("Please select your School", false);
             return false;
         }
         if (editbranch.equals("")) {
             branchsp.requestFocus();
-            AlertMessage("Please select your Branch");
+            AlertMessage("Please select your Branch", false);
             return false;
         }
         return true;
@@ -417,7 +425,7 @@ public class UpdateProfile extends AppCompatActivity {
 
     }
 
-    public void AlertMessage(String msg) {
+    public void AlertMessage(String msg, final boolean cancel) {
         AlertDialog.Builder alert = new AlertDialog.Builder(UpdateProfile.this);
         alert.setIcon(R.drawable.ic_info_black_24dp);
         alert.setTitle("Info!!!");
@@ -425,7 +433,8 @@ public class UpdateProfile extends AppCompatActivity {
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                if (cancel)
+                    finish();
             }
         });
         alert.show();

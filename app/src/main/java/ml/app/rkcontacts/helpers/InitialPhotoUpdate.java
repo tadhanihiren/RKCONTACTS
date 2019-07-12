@@ -48,7 +48,7 @@ public class InitialPhotoUpdate extends AsyncTask<String, Void, String> {
                 OutputStream OS = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new
                         OutputStreamWriter(OS, "UTF-8"));
-                String data = URLEncoder.encode("profile", "UTF-8") + "=" + URLEncoder.encode(profile, "UTF-8") + "&" + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
+                String data = URLEncoder.encode("profile", "UTF-8") + "=" + URLEncoder.encode(profile, "UTF-8") + "&" + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + URLEncoder.encode("dp", "UTF-8") + "=" + URLEncoder.encode("udp", "UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

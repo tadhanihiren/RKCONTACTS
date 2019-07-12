@@ -1,5 +1,6 @@
 package ml.app.rkcontacts.dashboardtab;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +38,7 @@ import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 import ml.app.rkcontacts.R;
+import ml.app.rkcontacts.UpdateProfile;
 import ml.app.rkcontacts.helpers.GlobalFunctions;
 import ml.app.rkcontacts.helpers.ListViewAdapter;
 import ml.app.rkcontacts.helpers.Model;
@@ -195,6 +199,34 @@ public class TabContactDashboard extends Fragment {
                 editor.putString("bulk", response);
                 editor.apply();
                 editor.commit();
+                CheckProfile(response);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void CheckProfile(String jsondata) {
+        String email = "";
+        Boolean profilepresent = false;
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
+        if (acct != null) {
+            email = acct.getEmail();
+        }
+        try {
+            JSONObject ob = new JSONObject(jsondata);
+            JSONArray jsonArray = ob.getJSONArray("faculty");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String tempemail = jsonObject.getString("email");
+                if (tempemail.equals(email)) {
+                    profilepresent = true;
+                    break;
+                }
+            }
+            if (!profilepresent) {
+                Intent i = new Intent(getContext(), UpdateProfile.class);
+                startActivity(i);
             }
         } catch (JSONException e) {
             e.printStackTrace();

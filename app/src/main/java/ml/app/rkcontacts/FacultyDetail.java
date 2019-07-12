@@ -121,7 +121,11 @@ public class FacultyDetail extends AppCompatActivity {
         else
             iconev.setImageResource(R.drawable.profile);
 //        Toast.makeText(getContext(), name, Toast.LENGTH_LONG).show();
-
+        if (mobile.equals("null")) {
+            callll.setClickable(false);
+            lnrcall.setClickable(false);
+            smsll.setClickable(false);
+        }
     }
 
     @Override
@@ -212,7 +216,7 @@ public class FacultyDetail extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
             Toast.makeText(getApplicationContext(), "SMS Permission is required to make a call!!!", Toast.LENGTH_SHORT).show();
         } else {
-            if (!mobile.equals("NULL")) {
+            if (!mobile.equals("null")) {
                 getApplicationContext().startActivity(intent);
             }
         }
@@ -232,7 +236,7 @@ public class FacultyDetail extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
             Toast.makeText(getApplicationContext(), "Call Permission is required to make a call!!!", Toast.LENGTH_SHORT).show();
         } else {
-            if (!mobile.equals("NULL")) {
+            if (!mobile.equals("null")) {
                 getApplicationContext().startActivity(intent);
             }
         }
