@@ -89,7 +89,7 @@ public class ListViewAdapter extends BaseAdapter {
         if (!modellist.get(position).getBranch().equals("NS"))
             desc += modellist.get(position).getBranch();
 
-        if (!modellist.get(position).getSchool().equals("NS") && !modellist.get(position).getBranch().equals("NS")) {
+        if (!modellist.get(position).getSchool().equals("NS") && (!modellist.get(position).getBranch().equals("NS") || !modellist.get(position).getRole().equals("NS"))) {
             desc += " - ";
         }
 
