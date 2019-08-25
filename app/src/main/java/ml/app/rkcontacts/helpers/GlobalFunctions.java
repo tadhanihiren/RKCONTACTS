@@ -93,6 +93,8 @@ public class GlobalFunctions {
     }
 
     public String getRoleName(String role_init) {
+        if (role_init.equals("NS"))
+            return "Not Specified";
         SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
         jsondata = prefsjsn.getString("bulk", "");
         try {
