@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UpdateProfile"></activity>
+        <activity android:name=".PrivacyPolicy"></activity>
+        <activity android:name=".AboutUs" />
+        <activity android:name=".UpdateProfile" />
         <activity android:name=".Groups" />
         <activity android:name=".FacultyDetail" />
         <activity android:name=".Home" />

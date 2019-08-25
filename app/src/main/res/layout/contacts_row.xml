@@ -4,12 +4,12 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <LinearLayout
         style="@style/SelectableItemBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:gravity="center">
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -34,6 +34,15 @@
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/setpost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SDS-CE-RKU"
+                android:textSize="14dp" />
+
+
             <!--<TextView-->
             <!--android:id="@+id/mainDesc"-->
             <!--android:text="Description"-->

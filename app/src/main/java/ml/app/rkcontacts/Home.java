@@ -132,6 +132,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                 });
                 break;
+            case R.id.abts:
+                Intent abt = new Intent(getApplicationContext(), AboutUs.class);
+                startActivity(abt);
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);

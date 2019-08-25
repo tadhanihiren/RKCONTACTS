@@ -30,7 +30,6 @@ public class FacultyList extends Fragment {
     String branch, school;
     ListView listView;
     ListViewAdapter adapter;
-
     String jsondata;
 
     ArrayList<Model> arrayList = new ArrayList<>();
@@ -73,7 +72,8 @@ public class FacultyList extends Fragment {
                         String gender = jsonObject.getString("gender");
                         String school = jsonObject.getString("school");
                         String branch = jsonObject.getString("branch");
-                        Model model = new Model(name, email, profile,mobile,ext,gender,school,branch);
+                        String role = jsonObject.getString("role");
+                        Model model = new Model(name, email, profile, mobile, ext, gender, school, branch, role);
                         //bind all strings in an array
                         arrayList.add(model);
                     }
@@ -91,7 +91,8 @@ public class FacultyList extends Fragment {
                         String gender = jsonObject.getString("gender");
                         String school = jsonObject.getString("school");
                         String branch = jsonObject.getString("branch");
-                        Model model = new Model(name, email, profile,mobile,ext,gender,school,branch);
+                        String role = jsonObject.getString("role");
+                        Model model = new Model(name, email, profile, mobile, ext, gender, school, branch, role);
                         //bind all strings in an array
                         arrayList.add(model);
                     }

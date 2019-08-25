@@ -73,6 +73,44 @@ public class GlobalFunctions {
         return branchid;
     }
 
+    public String getRoleInit(String role_name) {
+        SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
+        jsondata = prefsjsn.getString("bulk", "");
+        try {
+            JSONObject ob = new JSONObject(jsondata);
+            JSONArray jsonArray = ob.getJSONArray("designation");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject.getString("name").equals(role_name)) {
+                    String init = jsonObject.getString("init");
+                    return init;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return role_name;
+    }
+
+    public String getRoleName(String role_init) {
+        SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
+        jsondata = prefsjsn.getString("bulk", "");
+        try {
+            JSONObject ob = new JSONObject(jsondata);
+            JSONArray jsonArray = ob.getJSONArray("designation");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject.getString("init").equals(role_init)) {
+                    String name = jsonObject.getString("name");
+                    return name;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return role_init;
+    }
+
     public void AlertMessage(Context amContext, String msg) {
         AlertDialog.Builder alert = new AlertDialog.Builder(amContext);
         alert.setIcon(R.drawable.ic_info_black_24dp);
@@ -124,7 +162,7 @@ public class GlobalFunctions {
     }
 
     public void UpdateApp(String type) {
-        int ver = 2;
+        int ver = R.string.app_version;
 
         SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
         jsondata = prefsjsn.getString("bulk", "");

@@ -18,5 +18,7 @@
     <string name="rkucontacts">RKU Contacts</string>
     <string name="url">https://www.rkuinfo.ml</string>
     <string name="app">App</string>
+    <string name="app_version">3</string>
     <string name="aboutus">About Us</string>
+
 </resources>

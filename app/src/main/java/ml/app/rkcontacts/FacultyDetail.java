@@ -28,11 +28,11 @@ import java.io.IOException;
 import ml.app.rkcontacts.helpers.GlobalFunctions;
 
 public class FacultyDetail extends AppCompatActivity {
-    String name, email, icon, mobile, ext, gender, school, branch;
+    String name, email, icon, mobile, ext, gender, school, branch, designation;
     private static final String VCF_DIRECTORY = "/RKCONTACTS";
     ImageView iconev;
     LinearLayout callll, smsll, emailll, lnrcall, lnremail;
-    TextView nametv, emailtv, mobiletv, exttv, gendertv, schooltv, branchtv, aboutsection;
+    TextView nametv, emailtv, mobiletv, exttv, gendertv, designationtv, schooltv, branchtv, aboutsection;
     private File vcfFile;
     GlobalFunctions gb;
 
@@ -49,6 +49,7 @@ public class FacultyDetail extends AppCompatActivity {
         mobile = i.getStringExtra("mobile");
         ext = i.getStringExtra("ext");
         gender = i.getStringExtra("gender");
+        designation = gb.getRoleName(i.getStringExtra("role"));
         school = gb.getSchoolName(i.getStringExtra("school"));
         branch = gb.getBranchName(i.getStringExtra("branch"));
 
@@ -104,6 +105,7 @@ public class FacultyDetail extends AppCompatActivity {
         exttv = findViewById(R.id.lnrtvext);
         aboutsection = findViewById(R.id.aboutsection);
         gendertv = findViewById(R.id.lnrtvgen);
+        designationtv = findViewById(R.id.lnrtvdeg);
         schooltv = findViewById(R.id.lnrtvsch);
         branchtv = findViewById(R.id.lnrtvbra);
         iconev = findViewById(R.id.profile);
@@ -114,6 +116,7 @@ public class FacultyDetail extends AppCompatActivity {
         exttv.setText(ext);
         aboutsection.setText("About " + name);
         gendertv.setText(gender);
+        designationtv.setText(designation);
         schooltv.setText(school);
         branchtv.setText(branch);
         if (!icon.equals(""))

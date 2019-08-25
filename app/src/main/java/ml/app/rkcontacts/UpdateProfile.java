@@ -38,16 +38,17 @@ import dmax.dialog.SpotsDialog;
 import ml.app.rkcontacts.helpers.GlobalFunctions;
 
 public class UpdateProfile extends AppCompatActivity {
-    int branchcache;
-    String email, jasonstring, oldschool, profile;
+    int branchcache, schoolcache;
+    String email, jasonstring, oldschool, profile, oldrole;
     String[] gender = {"Select Gender", "Male", "Female"};
     TextView emailtv, aboutsection;
     EditText nameet, mobileet, extet;
-    Spinner gendersp, schoolsp, branchsp;
+    Spinner gendersp, schoolsp, branchsp, rolesp;
     ArrayList<SetArrayAdapterClass> school = new ArrayList<>();
+    ArrayList<SetArrayAdapterClass> role = new ArrayList<>();
     ArrayList<SetArrayAdapterClass> branch = new ArrayList<>();
     ImageView profileev;
-    String editname, editmobile, editext, editgender, editschool, editbranch;
+    String editname, editmobile, editext, editgender, editschool, editbranch, editrole;
     Button updt_prfl;
     GlobalFunctions gb;
     private SpotsDialog progressDialog;
@@ -77,11 +78,17 @@ public class UpdateProfile extends AppCompatActivity {
         gendersp = findViewById(R.id.gendersp);
         schoolsp = findViewById(R.id.schoolsp);
         branchsp = findViewById(R.id.branchsp);
+        rolesp = findViewById(R.id.rolesp);
         profileev = findViewById(R.id.profileev);
         updt_prfl = findViewById(R.id.updtprflbtn);
 
         SetArrayList("school", "");
+        SetArrayList("role", "");
 
+
+        final ArrayAdapter<SetArrayAdapterClass> roleaa = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, role);
+        roleaa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        rolesp.setAdapter(roleaa);
 
         final ArrayAdapter<String> genderaa = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, gender);
         genderaa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -107,6 +114,58 @@ public class UpdateProfile extends AppCompatActivity {
         });
 
 
+        rolesp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editrole = role.get(position).toString();
+//                Toast.makeText(UpdateProfile.this, editrole, Toast.LENGTH_SHORT).show();
+                if (editrole.equals("President") || editrole.equals("Vice President") || editrole.equals("Executive Vice President")) {
+                    editschool = "NS";
+                    schoolsp.setEnabled(false);
+                    schoolsp.setClickable(false);
+//                    schoolsp.setSelection(0);
+//                    Toast.makeText(UpdateProfile.this, editschool, Toast.LENGTH_SHORT).show();
+                    editbranch = "NS";
+                    branchsp.setEnabled(false);
+                    branchsp.setClickable(false);
+//                    branchsp.setSelection(0);
+                } else if (editrole.equals("Director")) {
+                    editbranch = "NS";
+                    schoolsp.setEnabled(true);
+                    schoolsp.setClickable(true);
+                    branchsp.setEnabled(false);
+                    branchsp.setClickable(false);
+//                    branchsp.setSelection(0);
+                } else {
+                    schoolsp.setEnabled(true);
+                    schoolsp.setClickable(true);
+                    schoolsp.setSelection(0);
+                    branchsp.setEnabled(true);
+                    branchsp.setClickable(true);
+                    branchsp.setSelection(0);
+                    if (position == 0)
+                        editrole = "";
+
+//                    if (editrole != null && oldrole != null) {
+//                        if (oldrole.equals(editrole)) {
+//                            schoolsp.setSelection(schoolcache);
+//                            branchsp.setSelection(branchcache);
+//                        } else {
+//                            branchsp.setSelection(0);
+//                            schoolsp.setSelection(0);
+//                        }
+//                    }
+                }
+//                Toast.makeText(UpdateProfile.this, editbranch, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         schoolsp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -117,12 +176,8 @@ public class UpdateProfile extends AppCompatActivity {
                     editschool = editschool.substring(0, editschool.indexOf(' '));
                 SetArrayList("branch", editschool);
 
-                if (editschool != null && oldschool != null) {
-                    if (oldschool.equals(editschool))
-                        branchsp.setSelection(branchcache);
-                    else
-                        branchsp.setSelection(0);
-                }
+                branchsp.setSelection(0);
+//                Toast.makeText(UpdateProfile.this, editbranch, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -136,7 +191,10 @@ public class UpdateProfile extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 editbranch = branch.get(position).toString();
                 if (position == 0)
-                    editbranch = "";
+                    if (editrole.equals("Director"))
+                        editbranch = "NS";
+                    else
+                        editbranch = "";
                 else
                     editbranch = editbranch.substring(0, editbranch.indexOf(' '));
             }
@@ -195,6 +253,18 @@ public class UpdateProfile extends AppCompatActivity {
                                         gendersp.setSelection(spinnerPosition);
                                         String schoolid = jsonObject.getString("school");
                                         String branchid = jsonObject.getString("branch");
+                                        String roleid = jsonObject.getString("role");
+
+
+                                        for (int j = 0; j < role.size(); j++) {
+                                            String temp = role.get(j).toString();
+//                                            temp = temp.substring(0, temp.indexOf(' '));
+                                            if (temp.equals(roleid)) {
+                                                oldrole = temp;
+                                                rolesp.setSelection(j);
+                                                break;
+                                            }
+                                        }
 
                                         for (int j = 0; j < school.size(); j++) {
                                             String temp = school.get(j).toString();
@@ -202,6 +272,7 @@ public class UpdateProfile extends AppCompatActivity {
                                             if (temp.equals(schoolid)) {
                                                 oldschool = temp;
                                                 schoolsp.setSelection(j);
+                                                schoolcache = j;
                                                 break;
                                             }
                                         }
@@ -303,6 +374,7 @@ public class UpdateProfile extends AppCompatActivity {
                 params.put("school", editschool);
                 params.put("branch", editbranch);
                 params.put("profile", profile);
+                params.put("role", editrole);
                 return params;
             }
         };
@@ -418,6 +490,29 @@ public class UpdateProfile extends AppCompatActivity {
             }
             branchaa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             branchsp.setAdapter(branchaa);
+        } else if (type == "role") {
+            final ArrayAdapter<SetArrayAdapterClass> roleaa = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, role);
+            if (role != null)
+                role.clear();
+//            String rolename = param;
+            role.add(new SetArrayAdapterClass("Select Designation"));
+            try {
+                JSONObject ob = new JSONObject(jasonstring);
+                JSONArray jsonArray = ob.getJSONArray("designation");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                    if (jsonObject.getString("school").equals(schoolid)) {
+                    String rolename = jsonObject.getString("name");
+//                        GlobalFunctions gb = new GlobalFunctions(getApplicationContext());
+                    role.add(new SetArrayAdapterClass(rolename));
+//                    }
+                }
+//                role.add(new SetArrayAdapterClass("GEN - General Department"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            roleaa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            rolesp.setAdapter(roleaa);
         }
     }
 

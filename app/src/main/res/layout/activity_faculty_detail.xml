@@ -358,6 +358,44 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
                             android:layout_margin="10dp"
+                            android:src="@drawable/ic_flag_black_24dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/lnrtvdeg"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Professor"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Designation" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_margin="10dp"
                             android:src="@drawable/ic_school_black_24dp" />
 
                         <LinearLayout

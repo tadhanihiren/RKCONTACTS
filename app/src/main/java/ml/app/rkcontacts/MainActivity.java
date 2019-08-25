@@ -41,6 +41,7 @@ import static java.lang.Boolean.TRUE;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     String temp = "hpanchani813@rku.ac.in";
+    //    String temp = "dbusa429@rku.ac.in";
     ImageView login;
     private SpotsDialog progressDialog;
     private GoogleApiClient googleApiClient;

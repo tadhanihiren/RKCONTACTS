@@ -9,10 +9,11 @@ public class Model {
     String gender;
     String school;
     String branch;
+    String role;
 
 
     //constructor
-    public Model(String title, String desc, String icon, String mobile, String ext, String gender, String school, String branch) {
+    public Model(String title, String desc, String icon, String mobile, String ext, String gender, String school, String branch, String role) {
         this.name = title;
         this.email = desc;
         this.icon = icon;
@@ -21,6 +22,7 @@ public class Model {
         this.gender = gender;
         this.school = school;
         this.branch = branch;
+        this.role = role;
     }
 
     //getters
@@ -51,5 +53,9 @@ public class Model {
     }
     public String getBranch() {
         return this.branch;
+    }
+
+    public String getRole() {
+        return this.role;
     }
 }
