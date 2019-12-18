@@ -164,7 +164,7 @@ public class GlobalFunctions {
     }
 
     public void UpdateApp(String type) {
-        int ver = R.string.app_version;
+        int ver = 4;
 
         SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
         jsondata = prefsjsn.getString("bulk", "");
@@ -173,6 +173,7 @@ public class GlobalFunctions {
             JSONArray jsonArray = ob.getJSONArray("app_update");
             for (int i = 0; i < jsonArray.length(); i++) {
                 final JSONObject jsonObject = jsonArray.getJSONObject(i);
+
                 if (ver < Integer.parseInt(jsonObject.getString("ver"))) {
                     final String link = jsonObject.getString("link");
                     final String uver = jsonObject.getString("ver");
