@@ -76,7 +76,7 @@
                 android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Version 3.0"
+                android:text="Version 4.0"
                 android:textAlignment="center"
                 android:textSize="18dp"
                 android:visibility="visible" />
