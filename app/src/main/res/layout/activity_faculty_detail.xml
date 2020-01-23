@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:showDividers="middle"
-                android:weightSum="6">
+                android:weightSum="5">
 
 
                 <LinearLayout
@@ -120,12 +120,13 @@
                     style="@style/SelectableItemBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="35dp"
+                        android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
@@ -138,6 +139,33 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="Email"
+                        android:textColor="#1a73e9"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/whatsappicon"
+                    style="@style/SelectableItemBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/whatsapp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Whatsapp"
                         android:textColor="#1a73e9"
                         android:textSize="18sp" />
                 </LinearLayout>

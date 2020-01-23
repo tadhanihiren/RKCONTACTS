@@ -123,7 +123,7 @@ public class ListViewAdapter extends BaseAdapter {
                 i.putExtra("name", modellist.get(position).getName());
                 i.putExtra("email", modellist.get(position).getEmail());
                 i.putExtra("icon", modellist.get(position).getIcon());
-                i.putExtra("mobile", modellist.get(position).getMobile());
+                i.putExtra("mobile", "+91 " + modellist.get(position).getMobile());
                 i.putExtra("ext", modellist.get(position).getExt());
                 i.putExtra("gender", modellist.get(position).getGender());
                 i.putExtra("school", modellist.get(position).getSchool());

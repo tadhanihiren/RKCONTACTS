@@ -31,7 +31,7 @@ public class FacultyDetail extends AppCompatActivity {
     String name, email, icon, mobile, ext, gender, school, branch, designation;
     private static final String VCF_DIRECTORY = "/RKCONTACTS";
     ImageView iconev;
-    LinearLayout callll, smsll, emailll, lnrcall, lnremail;
+    LinearLayout callll, smsll, emailll, lnrcall, lnremail, whatsappll;
     TextView nametv, emailtv, mobiletv, exttv, gendertv, designationtv, schooltv, branchtv, aboutsection;
     private File vcfFile;
     GlobalFunctions gb;
@@ -61,6 +61,7 @@ public class FacultyDetail extends AppCompatActivity {
         callll = findViewById(R.id.callicon);
         smsll = findViewById(R.id.texticon);
         emailll = findViewById(R.id.emailicon);
+        whatsappll = findViewById(R.id.whatsappicon);
         lnrcall = findViewById(R.id.lnrcall);
         lnremail = findViewById(R.id.lnremail);
 
@@ -89,6 +90,13 @@ public class FacultyDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Email();
+            }
+        });
+
+        whatsappll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Whatsapp();
             }
         });
 
@@ -228,6 +236,12 @@ public class FacultyDetail extends AppCompatActivity {
 
     private void Email() {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+    }
+
+    private void Whatsapp() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + mobile + "&text=&source=&data="));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
     }

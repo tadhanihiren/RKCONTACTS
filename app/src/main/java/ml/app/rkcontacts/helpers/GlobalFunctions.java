@@ -164,7 +164,7 @@ public class GlobalFunctions {
     }
 
     public void UpdateApp(String type) {
-        int ver = 4;
+        int ver = 5;
 
         SharedPreferences prefsjsn = mContext.getSharedPreferences("data", MODE_PRIVATE);
         jsondata = prefsjsn.getString("bulk", "");
@@ -240,5 +240,4 @@ public class GlobalFunctions {
             e.printStackTrace();
         }
     }
-
 }
