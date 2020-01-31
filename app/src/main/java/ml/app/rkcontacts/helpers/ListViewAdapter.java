@@ -1,5 +1,6 @@
 package ml.app.rkcontacts.helpers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,11 +22,11 @@ import ml.app.rkcontacts.R;
 public class ListViewAdapter extends BaseAdapter {
 
     //variables
-    String desc = "";
-    Context mContext;
-    LayoutInflater inflater;
-    List<Model> modellist;
-    ArrayList<Model> arrayList;
+    private String desc = "";
+    private Context mContext;
+    private LayoutInflater inflater;
+    private List<Model> modellist;
+    private ArrayList<Model> arrayList;
     GlobalFunctions gf;
 
     //constructor
@@ -33,7 +34,7 @@ public class ListViewAdapter extends BaseAdapter {
         mContext = context;
         this.modellist = modellist;
         inflater = LayoutInflater.from(mContext);
-        this.arrayList = new ArrayList<Model>();
+        this.arrayList = new ArrayList<>();
         this.arrayList.addAll(modellist);
     }
 
@@ -57,6 +58,7 @@ public class ListViewAdapter extends BaseAdapter {
         return i;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder holder;

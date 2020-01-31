@@ -27,8 +27,8 @@ import ml.app.rkcontacts.R;
 import static android.content.Context.MODE_PRIVATE;
 
 public class GlobalFunctions {
-    Context mContext;
-    String jsondata;
+    private Context mContext;
+    private String jsondata;
 
     // constructor
     public GlobalFunctions(Context context) {
@@ -44,8 +44,7 @@ public class GlobalFunctions {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 if (jsonObject.getString("id").equals(schoolid)) {
-                    String name = jsonObject.getString("name");
-                    return name;
+                    return jsonObject.getString("name");
                 }
             }
         } catch (JSONException e) {
@@ -63,8 +62,7 @@ public class GlobalFunctions {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 if (jsonObject.getString("id").equals(branchid)) {
-                    String name = jsonObject.getString("name");
-                    return name;
+                    return jsonObject.getString("name");
                 }
             }
         } catch (JSONException e) {
@@ -82,8 +80,7 @@ public class GlobalFunctions {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 if (jsonObject.getString("name").equals(role_name)) {
-                    String init = jsonObject.getString("init");
-                    return init;
+                    return jsonObject.getString("init");
                 }
             }
         } catch (JSONException e) {
@@ -103,8 +100,7 @@ public class GlobalFunctions {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 if (jsonObject.getString("init").equals(role_init)) {
-                    String name = jsonObject.getString("name");
-                    return name;
+                    return jsonObject.getString("name");
                 }
             }
         } catch (JSONException e) {
@@ -179,7 +175,7 @@ public class GlobalFunctions {
                     final String uver = jsonObject.getString("ver");
 
                     SharedPreferences.Editor logineditor = mContext.getSharedPreferences("app", MODE_PRIVATE).edit();
-                    logineditor.clear().commit();
+                    logineditor.clear().apply();
                     logineditor.apply();
 
                     AlertDialog.Builder alert = new AlertDialog.Builder(mContext);

@@ -24,7 +24,7 @@
             android:orientation="vertical"
             android:textAlignment="center">
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -54,7 +54,8 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:showDividers="middle"
-                android:weightSum="5">
+                android:weightSum="5"
+                android:baselineAligned="false">
 
 
                 <LinearLayout
@@ -66,7 +67,8 @@
                     android:animateLayoutChanges="true"
                     android:animationCache="true"
                     android:clickable="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -95,7 +97,8 @@
                     android:layout_marginEnd="20dp"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -123,7 +126,8 @@
                     android:layout_marginEnd="20dp"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -150,7 +154,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="35dp"
@@ -213,7 +218,8 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="5dp"
                             android:clickable="true"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:focusable="true">
 
                             <TextView
                                 android:id="@+id/lnrtvcall"
@@ -295,7 +301,8 @@
                             android:layout_marginBottom="5dp"
                             android:animateLayoutChanges="true"
                             android:clickable="true"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:focusable="true">
 
                             <TextView
                                 android:id="@+id/lnrtvemail"
